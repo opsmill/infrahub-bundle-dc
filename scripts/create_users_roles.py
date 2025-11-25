@@ -473,6 +473,7 @@ async def create_roles(client: InfrahubClient) -> dict[str, str]:
         "schema-reviewer-role": [
             "global:manage_schema:allow_all",  # Can manage schema definitions
             "global:review_proposed_change:allow_all",  # Can review/approve PCs
+            "global:edit_default_branch:allow_all",  # Needed for PC approvals
             "object:*:*:any:allow_all",  # Full access to all objects (CRUD)
         ],
     }
