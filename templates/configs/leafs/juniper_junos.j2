@@ -6,9 +6,9 @@
 system {
     host-name {{ name }};
 
-{%- if ospf and ospf[0] and ospf[0].router_id %}
+{%- if ospf_configs and ospf_configs[0] and ospf_configs[0].router_id %}
     ## OSPF Router ID
-    ## router-id {{ ospf[0].router_id.split('/')[0] }};
+    ## router-id {{ ospf_configs[0].router_id.split('/')[0] }};
 {%- endif %}
 
     services {
@@ -38,7 +38,7 @@ chassis {
 }
 
 interfaces {
-{%- for interface in interfaces %}
+{%- for interface in interface_list %}
     {{ interface.name }} {
 {%- if interface.description %}
         description "{{ interface.description }}";
@@ -94,15 +94,15 @@ interfaces {
 {%- endif %}
 }
 
-{%- if ospf %}
-{%- for ospf_config in ospf %}
+{%- if ospf_configs %}
+{%- for ospf_config in ospf_configs %}
 
 protocols {
     ospf {
         reference-bandwidth {{ ospf_config.reference_bandwidth or 10000 }}m;
 {%- if ospf_config.area %}
         area {{ ospf_config.area }} {
-{%- for interface in interfaces %}
+{%- for interface in interface_list %}
 {%- if interface.get('ospf') and interface.ospf.area == ospf_config.area %}
             interface {{ interface.name }}.0 {
                 interface-type p2p;

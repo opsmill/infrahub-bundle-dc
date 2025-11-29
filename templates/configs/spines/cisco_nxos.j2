@@ -35,7 +35,7 @@ interface {{ interface.name }}
 {%- endfor %}
 !
 ! OSPF Configuration
-{%- for ospf_config in ospf %}
+{%- for ospf_config in ospf_configs %}
 router ospf {{ ospf_config.process_id }}
   router-id {{ ospf_config.router_id.split('/')[0] }}
   area {{ ospf_config.area }} authentication message-digest

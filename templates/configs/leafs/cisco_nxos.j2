@@ -18,7 +18,7 @@ vlan {{ vlan.vlan_id }}
 {%- endfor %}
 !
 ! Interfaces
-{%- for interface in interfaces %}
+{%- for interface in interface_list %}
 interface {{ interface.name }}
 {%- if interface.status == 'active' %}
   no shutdown
@@ -40,13 +40,13 @@ interface {{ interface.name }}
 {%- endfor %}
 !
 ! OSPF Configuration
-{%- for ospf_config in ospf %}
+{%- for ospf_config in ospf_configs %}
 router ospf {{ ospf_config.process_id }}
   router-id {{ ospf_config.router_id.split('/')[0] }}
   area {{ ospf_config.area }} authentication message-digest
   auto-cost reference-bandwidth {{ ospf_config.reference_bandwidth }}
   passive-interface default
-{%- for interface in interfaces %}
+{%- for interface in interface_list %}
 {%- if interface.get('ospf') and interface.ospf.area == ospf_config.area %}
   no passive-interface {{ interface.name }}
 {%- endif %}
@@ -55,7 +55,7 @@ router ospf {{ ospf_config.process_id }}
 {%- endfor %}
 !
 ! BGP Configuration
-{%- for bgp_config in bgp %}
+{%- for bgp_config in bgp_profiles %}
 router bgp {{ bgp_config.local_as.asn }}
   router-id {{ bgp_config.router_id.address.split('/')[0] }}
 {%- if bgp_config.graceful_restart %}
