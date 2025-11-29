@@ -556,7 +556,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "infrahub-sdk", extras = ["all"], specifier = ">=1.15.1,<2.0.0" },
+    { name = "infrahub-sdk", extras = ["all"], specifier = ">=1.16.0b0,<2.0.0" },
     { name = "infrahub-testcontainers", specifier = "==1.6.0b0" },
     { name = "invoke", specifier = ">=2.2.1,<3.0.0" },
     { name = "mypy", specifier = ">=1.15.0" },
@@ -573,7 +573,7 @@ requires-dist = [
 
 [[package]]
 name = "infrahub-sdk"
-version = "1.15.1"
+version = "1.16.0b0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "dulwich" },
@@ -582,12 +582,13 @@ dependencies = [
     { name = "netutils" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
+    { name = "tomli", marker = "python_full_version < '3.11'" },
     { name = "ujson" },
     { name = "whenever" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e0/81/6cf7485439a3128cbd9fea363c1714b49b22684ce79a9d164f4cb1ce04bf/infrahub_sdk-1.15.1.tar.gz", hash = "sha256:e32b6953864c3e1e940ec8f5d1b96ad87d9e01830455c6a82fa20719a71b43c3", size = 135822, upload-time = "2025-11-13T11:36:54.015Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ce/eb/5fac20c67148ad8889cbe4ea76dc2ec366a850fe3a8599662b60861fbcfc/infrahub_sdk-1.16.0b0.tar.gz", hash = "sha256:34e29385674186525172d980e344095999eb03c1eb1ec7b9cdaa0871de3bc150", size = 705198, upload-time = "2025-11-25T07:22:29.14Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c0/af/813bc4900fc081e7a57914ac5fcfbec6a74976fc1d0f14d4f4236a2fa0d9/infrahub_sdk-1.15.1-py3-none-any.whl", hash = "sha256:01ae894f708107b401a247ed3a2a3ea0e3a75a30cbaae9dc608bbb81e6623a97", size = 183400, upload-time = "2025-11-13T11:36:52.444Z" },
+    { url = "https://files.pythonhosted.org/packages/d7/cc/023c3aa12fcf06852fdb359e3a4efe82b7b3e642ba02ac4d173b7696158a/infrahub_sdk-1.16.0b0-py3-none-any.whl", hash = "sha256:413a1f61db90e135783bfcdb865a1c856c670ae942894c36383b9935db29dc96", size = 183710, upload-time = "2025-11-25T07:22:27.875Z" },
 ]
 
 [package.optional-dependencies]
@@ -601,7 +602,6 @@ all = [
     { name = "pytest" },
     { name = "pyyaml" },
     { name = "rich" },
-    { name = "tomli", marker = "python_full_version < '3.11'" },
     { name = "typer" },
 ]
 
