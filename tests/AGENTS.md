@@ -29,7 +29,7 @@ uv run pytest --cov=.
 
 ## Directory Structure
 
-```
+```text
 tests/
 ├── conftest.py       # Root pytest fixtures (session-scoped)
 ├── unit/             # Fast, isolated unit tests

@@ -68,7 +68,7 @@ uv run mypy .              # Type checking only
 
 This project follows Infrahub's SDK pattern with five core component types:
 
-```
+```text
 schemas/      → Data models, relationships, constraints
 generators/   → Create infrastructure topology programmatically
 transforms/   → Convert Infrahub data to device configurations
@@ -78,7 +78,7 @@ templates/    → Jinja2 templates for device configurations
 
 ### Data Flow
 
-```
+```text
 Schema Definition → Data Loading → Generator Execution → Transform Processing → Configuration Generation
                                          ↓
                                    Validation Checks
@@ -100,6 +100,21 @@ Schema Definition → Data Loading → Generator Execution → Transform Process
 
 See [tests/AGENTS.md](./tests/AGENTS.md) for detailed testing conventions.
 
+## Post-Change Validation
+
+**IMPORTANT**: After making code changes, always run the full lint suite:
+
+```bash
+uv run invoke lint  # Runs: markdownlint, yamllint, ruff, mypy
+```
+
+This ensures:
+
+- Markdown files have proper formatting (blank lines around code blocks, language specifiers)
+- YAML files are valid
+- Python code passes ruff linting
+- Type hints are correct (mypy)
+
 ## Security Considerations
 
 - Never commit `.env` files or credentials
@@ -112,7 +127,7 @@ See [tests/AGENTS.md](./tests/AGENTS.md) for detailed testing conventions.
 - Use descriptive commit messages focusing on "why" not "what"
 - Reference issue numbers where applicable
 - Do not auto-commit - only commit when explicitly requested
-- Run `uv run invoke lint` before creating PRs
+- **Always run `uv run invoke lint` after code changes and before commits/PRs**
 
 ## Development Environment
 
@@ -123,12 +138,14 @@ See [tests/AGENTS.md](./tests/AGENTS.md) for detailed testing conventions.
 ### Environment Variables
 
 Required in `.env`:
+
 ```bash
 INFRAHUB_ADDRESS="http://localhost:8000"
 INFRAHUB_API_TOKEN="<your-token>"
 ```
 
 Optional:
+
 ```bash
 INFRAHUB_GIT_LOCAL="true"  # Use local repo instead of GitHub
 ```

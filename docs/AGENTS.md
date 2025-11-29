@@ -87,7 +87,7 @@ vale $(find ./docs/docs -type f \( -name "*.mdx" -o -name "*.md" \))
 
 ## Directory Structure
 
-```
+```text
 docs/
 ├── docs/           # MDX content files
 ├── src/            # React components and pages

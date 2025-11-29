@@ -31,7 +31,7 @@ The service catalog has its own `requirements.txt` but shares dependencies with 
 
 ## Directory Structure
 
-```
+```text
 service_catalog/
 ├── Home.py              # Main landing page
 ├── pages/
@@ -131,6 +131,7 @@ INFRAHUB_API_TOKEN="<your-token>"
 ```
 
 Enable in Docker:
+
 ```bash
 INFRAHUB_SERVICE_CATALOG=true  # In .env or docker-compose.override.yml
 ```
