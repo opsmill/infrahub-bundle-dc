@@ -85,19 +85,19 @@ async def test_create_device(client):
 
 ### Root Fixtures (conftest.py)
 
-| Fixture | Scope | Description |
-|---------|-------|-------------|
-| `root_dir` | session | Project root directory path |
-| `fixtures_dir` | session | Test fixtures directory |
-| `schema_dir` | session | Schema files directory |
-| `data_dir` | session | Data files directory |
+| Fixture        | Scope   | Description                  |
+| -------------- | ------- | ---------------------------- |
+| `root_dir`     | session | Project root directory path  |
+| `fixtures_dir` | session | Test fixtures directory      |
+| `schema_dir`   | session | Schema files directory       |
+| `data_dir`     | session | Data files directory         |
 
 ### Integration Fixtures (integration/conftest.py)
 
-| Fixture | Scope | Description |
-|---------|-------|-------------|
-| `client` | class | Infrahub SDK client |
-| `infrahub_port` | session | Running Infrahub port |
+| Fixture         | Scope   | Description            |
+| --------------- | ------- | ---------------------- |
+| `client`        | class   | Infrahub SDK client    |
+| `infrahub_port` | session | Running Infrahub port  |
 
 ## Mocking Guidelines
 
