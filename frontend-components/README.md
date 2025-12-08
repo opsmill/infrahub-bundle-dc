@@ -4,6 +4,21 @@ This directory contains custom UI plugins for Infrahub.
 
 ## Quick Start
 
+### Create a New Plugin
+
+```bash
+# Create a new plugin from template
+./create-plugin.sh my-custom-widget
+
+# Follow the prompts
+cd infrahub-plugin-my-custom-widget
+npm install
+npm run build
+npm run preview   # Open http://localhost:3333
+```
+
+### Work with Existing Plugin
+
 ```bash
 cd infrahub-plugin-example
 
@@ -22,6 +37,7 @@ npm run build && npx serve dev -p 3333
 
 ```
 frontend-components/
+├── create-plugin.sh            # Plugin scaffolding script
 ├── built/                      # Compiled plugins (mounted into Infrahub)
 │   ├── plugins.json            # Plugin registry
 │   └── example-device/
@@ -37,6 +53,42 @@ frontend-components/
 │   └── package.json
 └── README.md
 ```
+
+## Scaffolding Script
+
+The `create-plugin.sh` script generates a complete plugin project:
+
+```bash
+./create-plugin.sh <plugin-name>
+```
+
+**Example:**
+
+```bash
+./create-plugin.sh network-topology
+```
+
+**Creates:**
+
+```
+infrahub-plugin-network-topology/
+├── src/
+│   └── index.tsx          # Template plugin component
+├── dev/
+│   └── index.html         # Local preview with mock data
+├── package.json           # Dependencies and scripts
+├── tsconfig.json          # TypeScript configuration
+├── vite.config.ts         # Build config using SDK helpers
+├── .gitignore
+└── README.md
+```
+
+The generated plugin includes:
+
+- Pre-configured Vite build with `@infrahub/plugin-sdk`
+- TypeScript support
+- Local preview page with mock Infrahub runtime
+- Template component with loading/error states
 
 ## Creating a Plugin
 
