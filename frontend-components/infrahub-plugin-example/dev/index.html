@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plugin Development Preview</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: system-ui, -apple-system, sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-100 p-8">
+  <div class="max-w-4xl mx-auto">
+    <h1 class="text-2xl font-bold mb-4">Plugin Development Preview</h1>
+
+    <!-- Dashboard Plugin Preview -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+      <div class="border-b border-gray-200 p-3 font-bold flex items-center gap-2">
+        <span>📊</span>
+        <span>Interfaces by Role</span>
+      </div>
+      <div class="p-3" style="height: 320px;">
+        <div id="dashboard-plugin"></div>
+      </div>
+    </div>
+
+    <!-- Panel Plugin Preview -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+      <div class="border-b border-gray-200 p-3 font-bold">Quick Stats (Panel Plugin)</div>
+      <div class="p-4">
+        <div id="panel-plugin"></div>
+      </div>
+    </div>
+
+    <!-- Tab Plugin Preview -->
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="border-b border-gray-200 p-3 font-bold">Device Visualization (Tab Plugin)</div>
+      <div class="p-4">
+        <div id="tab-plugin"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- React and ReactDOM from CDN -->
+  <script crossorigin src="https://unpkg.com/react@19/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@19/umd/react-dom.development.js"></script>
+
+  <!-- Mock InfrahubRuntime -->
+  <script>
+    // Mock the Infrahub runtime that plugins expect
+    window.InfrahubRuntime = {
+      React: React,
+      ReactDOM: ReactDOM,
+      jsxRuntime: {
+        jsx: React.createElement,
+        jsxs: React.createElement,
+        Fragment: React.Fragment,
+      },
+      ReactRouter: {
+        useNavigate: () => (path) => console.log('Navigate to:', path),
+        useLocation: () => ({ pathname: '/', search: '', hash: '' }),
+        useParams: () => ({}),
+        Link: (props) => React.createElement('a', { href: props.to, onClick: (e) => { e.preventDefault(); console.log('Link to:', props.to); }, ...props }),
+      },
+    };
+    window.InfrahubPlugins = {};
+
+    // Mock data for testing
+    const mockDashboardQueryData = {
+      DcimInterface: {
+        edges: [
+          { node: { __typename: 'DcimInterface', role: { value: 'backbone' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'backbone' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'backbone' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'upstream' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'upstream' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'peering' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'peering' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'peering' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'peering' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'server' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'management' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'management' } } },
+          { node: { __typename: 'DcimInterface', role: { value: 'loopback' } } },
+          { node: { __typename: 'DcimInterface', role: null } },
+          { node: { __typename: 'DcimInterface', role: null } },
+        ]
+      }
+    };
+
+    const mockPanelData = {
+      object: { id: '123', displayLabel: 'device-01', kind: 'DcimDevice' },
+      schema: {
+        id: 'schema-1',
+        name: 'DcimDevice',
+        namespace: 'Dcim',
+        attributes: [{ id: 'a1', name: 'name', kind: 'Text' }, { id: 'a2', name: 'status', kind: 'Text' }],
+        relationships: [{ id: 'r1', name: 'interfaces', peer: 'DcimInterface', kind: 'Generic', cardinality: 'many' }],
+      },
+      objectData: {
+        name: { value: 'device-01' },
+        description: { value: 'Primary edge router' },
+      },
+    };
+
+    const mockTabQueryData = {
+      DcimDevice: {
+        edges: [{
+          node: {
+            id: '123',
+            display_label: 'device-01',
+            name: { value: 'device-01' },
+            description: { value: 'Primary edge router' },
+            status: { value: 'active' },
+            interfaces: {
+              count: 8,
+              edges: [
+                { node: { id: 'i1', display_label: 'eth0', name: { value: 'eth0' }, role: { value: 'management' }, status: { value: 'active' } } },
+                { node: { id: 'i2', display_label: 'eth1', name: { value: 'eth1' }, role: { value: 'backbone' }, status: { value: 'active' } } },
+                { node: { id: 'i3', display_label: 'eth2', name: { value: 'eth2' }, role: { value: 'backbone' }, status: { value: 'active' } } },
+                { node: { id: 'i4', display_label: 'eth3', name: { value: 'eth3' }, role: { value: 'peering' }, status: { value: 'active' } } },
+                { node: { id: 'i5', display_label: 'eth4', name: { value: 'eth4' }, role: { value: 'peering' }, status: { value: 'inactive' } } },
+                { node: { id: 'i6', display_label: 'lo0', name: { value: 'lo0' }, role: { value: 'loopback' }, status: { value: 'active' } } },
+              ]
+            }
+          }
+        }]
+      }
+    };
+  </script>
+
+  <!-- Load the built plugin -->
+  <script src="../built/example-device/index.js"></script>
+
+  <!-- Render plugins -->
+  <script>
+    // Wait a bit for plugin to register
+    setTimeout(() => {
+      console.log('Registered plugins:', Object.keys(window.InfrahubPlugins));
+
+      // Render dashboard plugin
+      const dashboardPlugin = window.InfrahubPlugins['interface-roles-chart'];
+      if (dashboardPlugin) {
+        const DashboardComponent = dashboardPlugin.component;
+        const dashboardRoot = ReactDOM.createRoot(document.getElementById('dashboard-plugin'));
+        dashboardRoot.render(
+          React.createElement(DashboardComponent, {
+            queryData: mockDashboardQueryData,
+            isQueryLoading: false,
+            queryError: null,
+          })
+        );
+        console.log('Dashboard plugin rendered');
+      }
+
+      // Render panel plugin
+      const panelPlugin = window.InfrahubPlugins['example-quick-stats'];
+      if (panelPlugin) {
+        const PanelComponent = panelPlugin.component;
+        const panelRoot = ReactDOM.createRoot(document.getElementById('panel-plugin'));
+        panelRoot.render(
+          React.createElement(PanelComponent, mockPanelData)
+        );
+        console.log('Panel plugin rendered');
+      }
+
+      // Render tab plugin
+      const tabPlugin = window.InfrahubPlugins['example-device-info'];
+      if (tabPlugin) {
+        const TabComponent = tabPlugin.component;
+        const tabRoot = ReactDOM.createRoot(document.getElementById('tab-plugin'));
+        tabRoot.render(
+          React.createElement(TabComponent, {
+            ...mockPanelData,
+            queryData: mockTabQueryData,
+            isQueryLoading: false,
+            queryError: null,
+          })
+        );
+        console.log('Tab plugin rendered');
+      }
+    }, 100);
+  </script>
+</body>
+</html>

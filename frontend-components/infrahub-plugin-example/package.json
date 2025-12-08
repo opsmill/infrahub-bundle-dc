@@ -1,0 +1,41 @@
+{
+  "name": "@infrahub/plugin-example",
+  "version": "0.1.0",
+  "description": "Example Infrahub UI plugin demonstrating the plugin system",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "src/index.tsx",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./src/index.tsx"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "preview": "vite build && npx serve dev -p 3333",
+    "preview:watch": "concurrently \"vite build --watch\" \"npx serve dev -p 3333\""
+  },
+  "dependencies": {
+    "@infrahub/plugin-sdk": "file:/home/infrahub/dev/infrahub/frontend/packages/infrahub-plugin-sdk",
+    "recharts": "^3.5.1"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "typescript": "^5.9.0",
+    "vite": "^6.0.0"
+  },
+  "keywords": [
+    "infrahub",
+    "plugin",
+    "ui"
+  ],
+  "license": "Apache-2.0"
+}

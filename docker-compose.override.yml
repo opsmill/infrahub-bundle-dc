@@ -15,6 +15,10 @@ services:
     volumes:
       - ./:/upstream
 
+  infrahub-server:
+    volumes:
+      - ./frontend-components/built:/opt/infrahub/frontend/app/dist/assets/plugins
+
   streamlit-service-catalog:
     build:
       context: ./service_catalog
