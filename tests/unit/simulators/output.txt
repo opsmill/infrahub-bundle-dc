@@ -19,19 +19,3 @@ topology:
 
 
   links:
-    - endpoints: ["dc-arista-s-leaf-01:eth1/31", "dc-arista-s-spine-01:eth1/1"]
-    - endpoints: ["dc-arista-s-leaf-01:eth1/32", "dc-arista-s-spine-02:eth1/1"]
-    - endpoints: ["dc-arista-s-leaf-02:eth1/31", "dc-arista-s-spine-01:eth1/2"]
-    - endpoints: ["dc-arista-s-leaf-02:eth1/32", "dc-arista-s-spine-02:eth1/2"]
-    - endpoints: ["dc-arista-s-leaf-03:eth1/31", "dc-arista-s-spine-01:eth1/3"]
-    - endpoints: ["dc-arista-s-leaf-03:eth1/32", "dc-arista-s-spine-02:eth1/3"]
-    - endpoints: ["dc-arista-s-leaf-04:eth1/31", "dc-arista-s-spine-01:eth1/4"]
-    - endpoints: ["dc-arista-s-leaf-04:eth1/32", "dc-arista-s-spine-02:eth1/4"]
-    - endpoints: ["dc-arista-s-leaf-05:eth1/31", "dc-arista-s-spine-01:eth1/5"]
-    - endpoints: ["dc-arista-s-leaf-05:eth1/32", "dc-arista-s-spine-02:eth1/5"]
-    - endpoints: ["dc-arista-s-leaf-06:eth1/31", "dc-arista-s-spine-01:eth1/6"]
-    - endpoints: ["dc-arista-s-leaf-06:eth1/32", "dc-arista-s-spine-02:eth1/6"]
-    - endpoints: ["dc-arista-s-leaf-07:eth1/31", "dc-arista-s-spine-01:eth1/7"]
-    - endpoints: ["dc-arista-s-leaf-07:eth1/32", "dc-arista-s-spine-02:eth1/7"]
-    - endpoints: ["dc-arista-s-leaf-08:eth1/31", "dc-arista-s-spine-01:eth1/8"]
-    - endpoints: ["dc-arista-s-leaf-08:eth1/32", "dc-arista-s-spine-02:eth1/8"]

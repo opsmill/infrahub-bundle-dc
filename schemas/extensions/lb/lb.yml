@@ -143,6 +143,7 @@ nodes:
           jinja2_template: "{{ check__value }} (rise={{ rise__value }} fall={{ fall__value }} timeout={{ timeout__value }}ms)"
         read_only: true  # You must set the attribute to read-only as the value will be handled by the system
         optional: false
+
 extensions:
   nodes:
     # IPAM Extensions

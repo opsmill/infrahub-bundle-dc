@@ -88,23 +88,23 @@ topology:
 {#- Build endpoint1 (source) -#}
 {%- set endpoint1 = source_device + ":" + source_interface %}
 {#- Find remote endpoint from cable's connected_endpoints -#}
-{%- set remote_device = "" %}
-{%- set remote_interface = "" %}
+{#- Use namespace to allow variable updates inside loop (Jinja2 scoping) -#}
+{%- set ns = namespace(remote_device="", remote_interface="") %}
 {%- if cable.connected_endpoints and cable.connected_endpoints.edges %}
 {%- for endpoint in cable.connected_endpoints.edges %}
 {%- set ep_device = endpoint.node.device.node.name.value %}
 {%- set ep_interface = endpoint.node.name.value %}
 {#- Skip if this is the current interface (we want the remote one) -#}
 {%- if ep_device != source_device or ep_interface != source_interface %}
-{%- set remote_device = ep_device %}
-{%- set remote_interface = ep_interface %}
+{%- set ns.remote_device = ep_device %}
+{%- set ns.remote_interface = ep_interface %}
 {%- endif %}
 {%- endfor %}
 {%- endif %}
 {#- Only proceed if we found a remote endpoint -#}
-{%- if remote_device and remote_interface %}
+{%- if ns.remote_device and ns.remote_interface %}
 {#- Build endpoint2 (remote) -#}
-{%- set endpoint2 = remote_device + ":" + remote_interface %}
+{%- set endpoint2 = ns.remote_device + ":" + ns.remote_interface %}
 {#- Create sorted tuple to ensure consistent ordering for deduplication -#}
 {%- set endpoint_tuple = [endpoint1, endpoint2] | sort %}
 {%- set endpoint_key = endpoint_tuple | join("|") %}
@@ -125,7 +125,7 @@ topology:
 {%- set endpoint2 = endpoint2.split("/")[0] %}
 {%- endif %}
     - endpoints: ["{{ endpoint1 }}", "{{ endpoint2 }}"]
-{%- endif %}
+{% endif %}
 {%- endif %}
 {%- endif %}
 {%- endfor %}

@@ -8,6 +8,7 @@ from .common import (
     get_bgp_profile,
     get_data,
     get_interface_roles,
+    get_interfaces,
     get_loopbacks,
     get_ospf,
 )
@@ -39,9 +40,6 @@ class Spine(InfrahubTransform):
         bgp_profiles = get_bgp_profile(data.get("device_services"))
         ospf_configs = get_ospf(data.get("device_services"))
 
-        # Extract first OSPF config or use empty dict
-        ospf = ospf_configs[0] if ospf_configs else {}
-
         # Create both flattened BGP dict (for Arista/Juniper templates)
         # and pass original bgp_profiles list (for Cisco template)
         bgp = {}
@@ -67,12 +65,18 @@ class Spine(InfrahubTransform):
                     }
                     bgp["neighbors"].append(neighbor)
 
+        # Extract first OSPF config for templates that expect a single dict (Arista)
+        ospf_single = ospf_configs[0] if ospf_configs else {}
+
         config = {
             "hostname": data.get("name"),
+            "name": data.get("name"),  # Alias for Juniper template compatibility
             "bgp": bgp,  # Flattened dict for Arista/Juniper/SONiC templates
-            "bgp_profiles": bgp_profiles,  # Original list for Cisco template
-            "ospf": ospf,
-            "interface_roles": get_interface_roles(data.get("interfaces")),
+            "bgp_profiles": bgp_profiles,  # Original list for Cisco/Juniper templates
+            "ospf": ospf_single,  # Single dict for Arista templates
+            "ospf_configs": ospf_configs,  # List for Cisco/Juniper templates (iteration)
+            "interface_roles": get_interface_roles(data.get("interfaces")),  # Dict by role for Arista
+            "interfaces": get_interfaces(data.get("interfaces")),  # Flat list for Cisco/Juniper
             "loopbacks": get_loopbacks(data.get("interfaces")),
         }
 
