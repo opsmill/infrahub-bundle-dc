@@ -62,7 +62,7 @@ generics:
         identifier: device_services
         order_weight: 1000
 
-  - name: GenericInterfaces # ServiceGenericInterface
+  - name: GenericInterfaces # ServiceGenericInterfaces
     namespace: Service
     description: "Services"
     include_in_menu: false
@@ -92,7 +92,7 @@ extensions:
     - kind: DcimInterface
       relationships:
         - name: interface_services # l2_segment
-          peer: ServiceGenericInterface
+          peer: ServiceGenericInterfaces
           label: Interface Services # L2 Segment(s)
           identifier: interface_services
           optional: true
