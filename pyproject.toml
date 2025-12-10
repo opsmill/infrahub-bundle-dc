@@ -9,7 +9,7 @@ authors = [
 ]
 requires-python = "<3.13,>3.10"
 dependencies = [
-    "infrahub-sdk[all]>=1.16.0b0,<2.0.0",
+    "infrahub-sdk[all]>=1.16.0,<2.0.0",
     "infrahub-testcontainers==1.6.0",
     "invoke<3.0.0,>=2.2.1",
     "mypy>=1.15.0",
@@ -24,7 +24,7 @@ dependencies = [
     "yamllint>=1.37.1",
 ]
 name = "infrahub-bundle-dc"
-version = "1.0.0"
+version = "1.0.1"
 description = "Design driven automation with Infrahub"
 readme = "README.md"
 
