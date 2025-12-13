@@ -4,37 +4,37 @@ kind: Object
 spec:
   kind: ServiceNetworkSegment
   data:
-    - name: "web-tier-customer-1"
-      description: "Web tier for Customer 1"
+    - name: "web-tier-opsmill"
+      description: "Web tier for OpsMill"
       status: "active"
       environment: "production"
       vlan_id: 100
       external_routing: false
       segment_type: "l2_only"
       tenant_isolation: "customer_dedicated"
-      customer: "Customer 1"
+      customer: "OpsMill"
       namespace: "default"
       fabric: "DC-1"
-    - name: "app-tier-customer-1"
-      description: "Application tier for Customer 1"
+    - name: "app-tier-opsmill"
+      description: "Application tier for OpsMill"
       status: "active"
       environment: "production"
       vlan_id: 101
       external_routing: false
       segment_type: "l2_only"
       tenant_isolation: "customer_dedicated"
-      customer: "Customer 1"
+      customer: "OpsMill"
       namespace: "default"
       fabric: "DC-1"
-    - name: "db-tier-customer-1"
-      description: "Database tier for Customer 1"
+    - name: "db-tier-opsmill"
+      description: "Database tier for OpsMill"
       status: "active"
       environment: "production"
       vlan_id: 102
       external_routing: false
       segment_type: "l2_only"
       tenant_isolation: "customer_dedicated"
-      customer: "Customer 1"
+      customer: "OpsMill"
       namespace: "default"
       fabric: "DC-1"
     - name: "web-tier-customer-2"
@@ -70,15 +70,15 @@ spec:
       customer: "Customer 3"
       namespace: "default"
       fabric: "DC-1"
-    - name: "l3-gateway-customer-1"
-      description: "L3 Gateway segment for Customer 1"
+    - name: "l3-gateway-opsmill"
+      description: "L3 Gateway segment for OpsMill"
       status: "active"
       environment: "production"
       vlan_id: 103
       external_routing: true
       segment_type: "l3_gateway"
       tenant_isolation: "customer_dedicated"
-      customer: "Customer 1"
+      customer: "OpsMill"
       namespace: "default"
       fabric: "DC-1"
     - name: "l3-vrf-customer-2"
@@ -100,6 +100,6 @@ spec:
       external_routing: true
       segment_type: "l3_gateway"
       tenant_isolation: "shared_controlled"
-      customer: "Customer 1"
+      customer: "OpsMill"
       namespace: "default"
       fabric: "DC-1"

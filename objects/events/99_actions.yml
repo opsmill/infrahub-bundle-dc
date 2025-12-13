@@ -16,3 +16,9 @@ spec:
       mutation_action: created
       action: pop
       branch_scope: other_branches
+    - name: segment-on-create
+      description: Trigger on create of Network Segment
+      node_kind: ServiceNetworkSegment
+      mutation_action: created
+      action: segment
+      branch_scope: other_branches

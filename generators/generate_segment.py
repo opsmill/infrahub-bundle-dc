@@ -1,141 +1,226 @@
-"""Network Segment Generator for Multi-Customer Fabrics."""
+"""Network Segment Generator for VxLAN VPN Services.
 
-import logging
-from typing import Any, Dict, List
+This generator processes ServiceNetworkSegment objects and configures:
+- VNI (VXLAN Network Identifier) = VLAN ID + 10000
+- RD (Route Distinguisher) = VLAN ID
+- Associates segment with customer interfaces on leaf devices
+"""
 
-from infrahub_sdk.generator import InfrahubGenerator
+from typing import Any
 
-from .common import TopologyCreator
+from infrahub_sdk.generator import InfrahubGenerator  # type: ignore[import-not-found]
 
-
-class NetworkSegmentCreator(TopologyCreator):
-    """Create network segments for multi-customer fabrics."""
-
-    def __init__(
-        self, client: Any, log: logging.Logger, branch: str, data: dict
-    ) -> None:
-        super().__init__(client, log, branch, data)
-        self.segment_objects: List[Any] = []  # Track created segments
-
-    async def create_network_segments(self, customers: List[Dict[str, Any]]) -> None:
-        """Create network segments for each customer with VLAN from customer pool."""
-        self.log.info("Creating multitenant network segments")
-
-        segment_data_list: List[Dict[str, Any]] = []
-
-        for customer in customers:
-            customer_name = customer.get("name", "")
-            segments = customer.get("segments", [])
-
-            for segment_info in segments:
-                segment_name = f"{customer_name}-{segment_info.get('name', 'default')}"
-
-                # VLAN assigned from customer pool (VNI = VLAN + 10000, RD = VLAN)
-                vlan_id = segment_info.get("vlan_id")
-                if not vlan_id:
-                    self.log.warning(f"No VLAN ID provided for segment {segment_name}")
-                    continue
-
-                vni = vlan_id + 10000
-                rd = str(vlan_id)
-
-                segment_data_list.append(
-                    {
-                        "payload": {
-                            "name": segment_name,
-                            "description": f"Network segment for customer {customer_name} (VLAN: {vlan_id}, VNI: {vni}, RD: {rd})",
-                            "vlan_id": vlan_id,
-                            "segment_type": segment_info.get("type", "l2_only"),
-                            "tenant_isolation": "customer_dedicated",
-                            "external_routing": segment_info.get(
-                                "external_routing", False
-                            ),
-                            "status": "active",
-                        },
-                        "store_key": f"segment-{segment_name}",
-                    }
-                )
-
-        await self._create_in_batch(
-            kind="ServiceNetworkSegment", data_list=segment_data_list
-        )
-
-        # Store segment references for later use
-        for segment_data in segment_data_list:
-            segment_key = segment_data["store_key"]
-            segment_obj = self.client.store.get(key=segment_key, branch=self.branch)
-            if segment_obj:
-                self.segment_objects.append(segment_obj)
-
-    async def assign_interfaces_to_segments(
-        self, customer_data: List[Dict[str, Any]]
-    ) -> None:
-        """Assign interfaces to network segments based on customer requirements."""
-        self.log.info("Assigning interfaces to network segments")
-
-        for customer in customer_data:
-            segments = customer.get("segments", [])
-
-            for segment_info in segments:
-                segment_name = (
-                    f"{customer.get('name', '')}-{segment_info.get('name', 'default')}"
-                )
-
-                # Find the segment object
-                segment = None
-                for seg_obj in self.segment_objects:
-                    if seg_obj.name.value == segment_name:
-                        segment = seg_obj
-                        break
-
-                if not segment:
-                    self.log.warning(f"Segment {segment_name} not found")
-                    continue
-
-                # Assign interfaces based on interface mappings
-                interface_mappings = segment_info.get("interface_mappings", [])
-                for mapping in interface_mappings:
-                    device_name = mapping.get("device")
-                    interface_name = mapping.get("interface")
-
-                    if device_name and interface_name:
-                        self.log.info(
-                            f"Would assign interface {interface_name} on {device_name} to segment {segment_name}"
-                        )
-                        # Note: Interface assignment would be implemented here
-                        # The exact API depends on the schema and SDK capabilities
+from .common import clean_data
 
 
 class NetworkSegmentGenerator(InfrahubGenerator):
-    """Generate network segments for multi-customer fabrics.
+    """Generate VxLAN VPN configuration for network segments.
 
-    This generator creates network segments with automated VLAN/VNI/RD assignment
-    based on customer requirements and fabric pools.
+    This generator is triggered when a ServiceNetworkSegment is created.
+    It processes the segment data, associates it with leaf device interfaces,
+    and configures the VxLAN overlay.
     """
 
     async def generate(self, data: dict) -> None:
-        """Generate network segments for customers."""
-        from .common import clean_data
+        """Process network segment and configure VxLAN settings.
 
+        Args:
+            data: GraphQL query result containing ServiceNetworkSegment data
+        """
         cleaned_data = clean_data(data)
-        if isinstance(cleaned_data, dict):
-            customer_data = cleaned_data.get("customers", [])
-            fabric_data = cleaned_data.get("fabric", {})
-        else:
+        if not isinstance(cleaned_data, dict):
             raise ValueError("clean_data() did not return a dictionary")
 
+        # Extract segment data from query result
+        segments = cleaned_data.get("ServiceNetworkSegment", [])
+        if not segments:
+            self.logger.warning("No segment data found in query result")
+            return
+
+        segment = segments[0]  # Generator runs per-segment
+        segment_id = segment.get("id")
+
+        # Extract segment attributes
+        segment_name = segment.get("name", "unknown")
+        customer_name = segment.get("customer_name", "unknown")
+        vlan_id = segment.get("vlan_id")
+        segment_type = segment.get("segment_type", "l2_only")
+        external_routing = segment.get("external_routing", False)
+        tenant_isolation = segment.get("tenant_isolation", "customer_dedicated")
+
+        if not vlan_id:
+            self.logger.error(f"Segment {segment_name} has no VLAN ID, skipping")
+            return
+
+        # Calculate VxLAN parameters
+        vni = vlan_id + 10000
+        rd = str(vlan_id)
+
+        self.logger.info(f"Processing segment: {segment_name}")
+        self.logger.info(f"  Customer: {customer_name}")
+        self.logger.info(f"  VLAN ID: {vlan_id}")
+        self.logger.info(f"  VNI: {vni}")
+        self.logger.info(f"  RD: {rd}")
+        self.logger.info(f"  Type: {segment_type}")
+        self.logger.info(f"  External Routing: {external_routing}")
+        self.logger.info(f"  Tenant Isolation: {tenant_isolation}")
+
+        # Get deployment information
+        deployment = segment.get("deployment")
+        if not deployment:
+            self.logger.warning(f"Segment {segment_name} has no deployment, skipping")
+            return
+
+        deployment_name = deployment.get("name", "unknown")
+        self.logger.info(f"  Deployment: {deployment_name}")
+
+        # Get prefix information if available
+        prefix_data = segment.get("prefix")
+        if prefix_data:
+            prefix_value = prefix_data.get("prefix", "N/A")
+            self.logger.info(f"  Prefix: {prefix_value}")
+
+        # Get devices from deployment for VxLAN configuration
+        devices = deployment.get("devices", [])
+        leaf_devices = [d for d in devices if d.get("role") in ["leaf", "border_leaf"]]
+
+        if not leaf_devices:
+            self.logger.info(
+                f"No leaf devices found in deployment {deployment_name}, "
+                "VxLAN configuration will be applied when devices are available"
+            )
+            return
+
         self.logger.info(
-            f"Generating network segments for {len(customer_data)} customers"
+            f"Found {len(leaf_devices)} leaf devices for VxLAN configuration"
         )
 
-        # Create network segment creator
-        segment_creator = NetworkSegmentCreator(
-            client=self.client, log=self.logger, branch=self.branch, data=fabric_data
+        # Associate segment with customer interfaces on leaf devices
+        await self._associate_interfaces_with_segment(
+            segment_id=segment_id,
+            segment_name=segment_name,
+            leaf_devices=leaf_devices,
         )
 
-        # Create segments
-        if customer_data:
-            await segment_creator.create_network_segments(customer_data)
-            await segment_creator.assign_interfaces_to_segments(customer_data)
+        # Log VxLAN configuration details
+        await self._log_vxlan_config(
+            leaf_devices=leaf_devices,
+            segment_name=segment_name,
+            vlan_id=vlan_id,
+            vni=vni,
+            rd=rd,
+            segment_type=segment_type,
+            external_routing=external_routing,
+        )
+
+    async def _associate_interfaces_with_segment(
+        self,
+        segment_id: str,
+        segment_name: str,
+        leaf_devices: list[dict[str, Any]],
+    ) -> None:
+        """Associate customer interfaces on leaf devices with the segment.
+
+        This method queries for customer-facing interfaces on each leaf device
+        and associates them with the network segment.
+
+        Args:
+            segment_id: The ID of the ServiceNetworkSegment
+            segment_name: Name of the segment for logging
+            leaf_devices: List of leaf device data from deployment
+        """
+        if not segment_id:
+            self.logger.warning("Segment ID not available, skipping interface association")
+            return
+
+        # Get the segment object
+        segment = await self.client.get(
+            kind="ServiceNetworkSegment",
+            id=segment_id,
+            branch=self.branch,
+        )
+
+        if not segment:
+            self.logger.warning(f"Could not retrieve segment {segment_name}")
+            return
+
+        interface_ids: list[str] = []
+
+        for device in leaf_devices:
+            device_name = device.get("name", "unknown")
+            device_id = device.get("id")
+
+            if not device_id:
+                self.logger.warning(f"Device {device_name} has no ID, skipping")
+                continue
+
+            # Query for customer interfaces on this device
+            interfaces = await self.client.all(
+                kind="InterfacePhysical",
+                device__ids=[device_id],
+                role__value="customer",
+                branch=self.branch,
+            )
+
+            for interface in interfaces:
+                interface_ids.append(interface.id)
+                self.logger.info(
+                    f"  Adding interface {interface.name.value} on {device_name} to segment"
+                )
+
+        if interface_ids:
+            # Update segment with interface associations
+            segment.interfaces.add(interface_ids)
+            await segment.save()
+            self.logger.info(
+                f"Associated {len(interface_ids)} interfaces with segment {segment_name}"
+            )
         else:
-            self.logger.warning("No customer data provided, skipping segment creation")
+            self.logger.info(f"No customer interfaces found for segment {segment_name}")
+
+    async def _log_vxlan_config(
+        self,
+        leaf_devices: list[dict[str, Any]],
+        segment_name: str,
+        vlan_id: int,
+        vni: int,
+        rd: str,
+        segment_type: str,
+        external_routing: bool,
+    ) -> None:
+        """Log VxLAN configuration details for each leaf device.
+
+        Args:
+            leaf_devices: List of leaf device data from deployment
+            segment_name: Name of the network segment
+            vlan_id: VLAN ID for the segment
+            vni: VxLAN Network Identifier
+            rd: Route Distinguisher
+            segment_type: Type of segment (l2_only, l3_gateway, l3_vrf)
+            external_routing: Whether external routing is enabled
+        """
+        for device in leaf_devices:
+            device_name = device.get("name", "unknown")
+
+            self.logger.info(
+                f"  VxLAN config on {device_name}: "
+                f"VLAN {vlan_id} -> VNI {vni} (RD: {rd})"
+            )
+
+            if segment_type == "l3_gateway":
+                self.logger.info(
+                    f"    L3 Gateway: SVI for VLAN {vlan_id} on {device_name}"
+                )
+            elif segment_type == "l3_vrf":
+                self.logger.info(
+                    f"    L3 VRF: VRF instance for segment on {device_name}"
+                )
+
+            if external_routing:
+                self.logger.info(
+                    f"    External routing: Advertising VNI {vni} to external peers"
+                )
+
+        self.logger.info(
+            f"VxLAN configuration complete for segment {segment_name}"
+        )

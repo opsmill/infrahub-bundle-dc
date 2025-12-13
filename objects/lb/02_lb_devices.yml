@@ -33,7 +33,7 @@ spec:
             owner:
               kind: OrganizationCustomer
               data:
-                name: Customer 1
+                name: OpsMill
             vip_ip:
               kind: IpamIPAddress
               data:

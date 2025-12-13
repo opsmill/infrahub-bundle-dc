@@ -4,18 +4,18 @@ import os
 import sys
 import time
 from pathlib import Path
-from invoke import task, Context  # type: ignore
-from rich.console import Console
-from rich.panel import Panel
-from rich.table import Table
-from rich.progress import (
+from invoke import task, Context  # type: ignore[import-not-found]
+from rich.console import Console  # type: ignore[import-not-found]
+from rich.panel import Panel  # type: ignore[import-not-found]
+from rich.table import Table  # type: ignore[import-not-found]
+from rich.progress import (  # type: ignore[import-not-found]
     Progress,
     SpinnerColumn,
     TextColumn,
     BarColumn,
     TimeElapsedColumn,
 )
-from rich import box
+from rich import box  # type: ignore[import-not-found]
 
 console = Console()
 
@@ -375,6 +375,72 @@ def demo_dc_cisco(context: Context, branch: str = "add-dc2") -> None:
             progress.update(task, advance=1)
 
     console.print("[green]✓[/green] Generator processing complete")
+
+    # Create proposed change
+    console.print(
+        f"\n[bright_magenta]→[/bright_magenta] Creating proposed change for branch '[bold]{branch}[/bold]'..."
+    )
+    context.run(
+        f"uv run python scripts/create_proposed_change.py --branch {branch}", pty=True
+    )
+
+    console.print()
+
+
+@task(optional=["branch"], name="demo-vpn-opsmill")
+def demo_vpn_opsmill(context: Context, branch: str = "add-vpn-opsmill") -> None:
+    """Create branch and load OpsMill VPN segment demo."""
+    console.print()
+    console.print(
+        Panel(
+            f"[bold cyan]OpsMill VxLAN VPN Segment Demo[/bold cyan]\n"
+            f"[dim]Branch:[/dim] {branch}",
+            border_style="cyan",
+            box=box.SIMPLE,
+        )
+    )
+
+    console.print(f"\n[cyan]→[/cyan] Creating branch: [bold]{branch}[/bold]")
+    context.run(f"uv run infrahubctl branch create {branch}")
+
+    console.print(
+        f"\n[cyan]→[/cyan] Loading OpsMill VPN segment to branch: [bold]{branch}[/bold]"
+    )
+    context.run(
+        f"uv run infrahubctl object load objects/segments/segment-opsmill.yml --branch {branch}"
+    )
+
+    console.print(
+        f"\n[green]✓[/green] OpsMill VPN segment loaded to branch '[bold green]{branch}[/bold green]'"
+    )
+
+    # Wait for generator to finish creating the data
+    console.print(
+        "\n[yellow]→[/yellow] Waiting for segment generator to complete..."
+    )
+    wait_seconds = 30  # Segment processing is faster than DC topology
+
+    with Progress(
+        SpinnerColumn(spinner_name="dots12", style="bold bright_yellow"),
+        TextColumn("[progress.description]{task.description}", style="bold white"),
+        BarColumn(
+            bar_width=40,
+            style="yellow",
+            complete_style="bright_green",
+            finished_style="bold bright_green",
+            pulse_style="bright_yellow",
+        ),
+        TextColumn("[bold bright_cyan]{task.percentage:>3.0f}%"),
+        TextColumn("•", style="dim"),
+        TimeElapsedColumn(),
+        console=console,
+    ) as progress:
+        task = progress.add_task("⏳ Segment generator processing", total=wait_seconds)
+        for _ in range(wait_seconds):
+            time.sleep(1)
+            progress.update(task, advance=1)
+
+    console.print("[green]✓[/green] Segment generator processing complete")
 
     # Create proposed change
     console.print(
