@@ -10,7 +10,7 @@ import re
 from collections import defaultdict
 from typing import Any
 
-from netutils.interface import sort_interface_list
+from netutils.interface import sort_interface_list  # type: ignore[import-not-found]
 
 # Range expansion pattern from infrahub_sdk
 RANGE_PATTERN = re.compile(r"(\[[\w,-]*[-,][\w,-]*\])")
@@ -135,17 +135,26 @@ def get_ospf(device_services: list[dict[str, Any]]) -> list[dict[str, Any]]:
 def get_vlans(data: list) -> list[dict[str, Any]]:
     """
     Extracts VLAN information from the input data.
-    Returns a list of dicts with only vlan_id and name, unique per (vlan_id, name).
+
+    Returns a list of dicts with vlan_id, name, vni, rd, segment_type, and external_routing.
+    VNI is computed as VLAN ID + 10000, RD is the VLAN ID as a string.
+    Unique per vlan_id.
     """
-    return [
-        {"vlan_id": vlan_id, "name": vlan_name}
-        for vlan_id, vlan_name in {
-            (segment.get("vlan_id"), segment.get("name"))
-            for interface in data
-            for segment in interface.get("interface_services", [])
-            if segment.get("typename") == "ServiceNetworkSegment"
-        }
-    ]
+    vlans: dict[int, dict[str, Any]] = {}
+    for interface in data:
+        for segment in interface.get("interface_services", []):
+            if segment.get("typename") == "ServiceNetworkSegment":
+                vlan_id = segment.get("vlan_id")
+                if vlan_id is not None and vlan_id not in vlans:
+                    vlans[vlan_id] = {
+                        "vlan_id": vlan_id,
+                        "name": segment.get("name") or segment.get("customer_name") or f"VLAN_{vlan_id}",
+                        "vni": vlan_id + 10000,
+                        "rd": str(vlan_id),
+                        "segment_type": segment.get("segment_type", "l2_only"),
+                        "external_routing": segment.get("external_routing", False),
+                    }
+    return list(vlans.values())
 
 
 def get_loopbacks(data: list) -> dict[str, str]:

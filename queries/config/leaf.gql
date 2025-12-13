@@ -155,6 +155,9 @@ query leaf_config($device: String!) {
                     ... on ServiceNetworkSegment {
                       vlan_id { value }
                       name { value }
+                      customer_name { value }
+                      segment_type { value }
+                      external_routing { value }
                     }
                   }
                 }
