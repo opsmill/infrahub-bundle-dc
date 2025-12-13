@@ -1,0 +1,20 @@
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: ServiceNetworkSegment
+  data:
+    - customer_name: OpsMill
+      environment: production
+      segment_type: l2_only
+      tenant_isolation: customer_dedicated
+      vlan_id: 500
+      external_routing: false
+      status: active
+      owner: OpsMill
+      deployment: dc-arista
+      prefix:
+        data:
+          prefix: 172.25.1.0/24
+          status: active
+          role: customer

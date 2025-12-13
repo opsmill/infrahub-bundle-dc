@@ -1,0 +1,72 @@
+query segment($name: String!) {
+  ServiceNetworkSegment(name__value: $name) {
+    edges {
+      node {
+        id
+        name {
+          value
+        }
+        customer_name {
+          value
+        }
+        environment {
+          value
+        }
+        segment_type {
+          value
+        }
+        tenant_isolation {
+          value
+        }
+        vlan_id {
+          value
+        }
+        external_routing {
+          value
+        }
+        status {
+          value
+        }
+        owner {
+          node {
+            id
+            name {
+              value
+            }
+          }
+        }
+        deployment {
+          node {
+            id
+            name {
+              value
+            }
+            ... on TopologyDataCenter {
+              devices {
+                edges {
+                  node {
+                    id
+                    name {
+                      value
+                    }
+                    role {
+                      value
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+        prefix {
+          node {
+            id
+            prefix {
+              value
+            }
+          }
+        }
+      }
+    }
+  }
+}

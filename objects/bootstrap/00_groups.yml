@@ -76,3 +76,5 @@ spec:
       description: Containerlab Topologies
     - name: equinix_pop
       description: Equinix POPs
+    - name: network_segments
+      description: Network Segments for VPN/VxLAN services

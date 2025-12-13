@@ -6,5 +6,7 @@ spec:
   parameters:
     expand_range: true
   data:
-    - name: Customer [1-20]
-      customer_id: CUST0[01-20]
+    - name: OpsMill
+      customer_id: CUST001
+    - name: Customer [2-20]
+      customer_id: CUST0[02-20]

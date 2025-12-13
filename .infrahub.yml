@@ -151,6 +151,13 @@ generator_definitions:
     class_name: PopTopologyGenerator
     parameters:
       name: name__value
+  - name: create_segment
+    file_path: generators/generate_segment.py
+    targets: network_segments
+    query: segment
+    class_name: NetworkSegmentGenerator
+    parameters:
+      name: name__value
 
 queries:
   - name: topology_dc
@@ -179,6 +186,8 @@ queries:
     file_path: queries/topology/equinix_pop.gql
   - name: juniper_firewall_config
     file_path: queries/config/juniper_firewall.gql
+  - name: segment
+    file_path: queries/segment/segment.gql
 schemas:
   - schemas/
 menus:
