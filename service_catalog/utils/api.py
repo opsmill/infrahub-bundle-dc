@@ -1207,6 +1207,260 @@ class InfrahubClient:
         except Exception as e:
             raise InfrahubAPIError(f"Failed to assign VLAN to interface: {str(e)}")
 
+    def get_organizations(self, branch: str = "main") -> List[Dict[str, Any]]:
+        """Fetch OrganizationGeneric objects (customers, providers, etc.).
+
+        Args:
+            branch: Branch name to query (default: "main")
+
+        Returns:
+            List of organization dictionaries with id, name, and type
+
+        Raises:
+            InfrahubConnectionError: If connection fails
+            InfrahubAPIError: If API error occurs
+        """
+        try:
+            query = """
+            query GetOrganizations {
+                OrganizationGeneric {
+                    edges {
+                        node {
+                            id
+                            display_label
+                            __typename
+                            ... on OrganizationCustomer {
+                                name { value }
+                            }
+                            ... on OrganizationProvider {
+                                name { value }
+                            }
+                        }
+                    }
+                }
+            }
+            """
+
+            result = self.execute_graphql(query, branch=branch)
+
+            organizations = []
+            edges = result.get("OrganizationGeneric", {}).get("edges", [])
+
+            for edge in edges:
+                node = edge.get("node", {})
+                organizations.append({
+                    "id": node.get("id"),
+                    "name": {"value": node.get("name", {}).get("value")},
+                    "display_label": node.get("display_label"),
+                    "type": node.get("__typename"),
+                })
+
+            return organizations
+        except Exception as e:
+            raise InfrahubAPIError(f"Failed to fetch organizations: {str(e)}")
+
+    def get_deployments(self, branch: str = "main") -> List[Dict[str, Any]]:
+        """Fetch TopologyDeployment objects (DataCenters, ColocationCenters, etc.).
+
+        Args:
+            branch: Branch name to query (default: "main")
+
+        Returns:
+            List of deployment dictionaries with id, name, and type
+
+        Raises:
+            InfrahubConnectionError: If connection fails
+            InfrahubAPIError: If API error occurs
+        """
+        try:
+            query = """
+            query GetDeployments {
+                TopologyDeployment {
+                    edges {
+                        node {
+                            id
+                            display_label
+                            __typename
+                            ... on TopologyDataCenter {
+                                name { value }
+                            }
+                            ... on TopologyColocationCenter {
+                                name { value }
+                            }
+                        }
+                    }
+                }
+            }
+            """
+
+            result = self.execute_graphql(query, branch=branch)
+
+            deployments = []
+            edges = result.get("TopologyDeployment", {}).get("edges", [])
+
+            for edge in edges:
+                node = edge.get("node", {})
+                deployments.append({
+                    "id": node.get("id"),
+                    "name": {"value": node.get("name", {}).get("value")},
+                    "display_label": node.get("display_label"),
+                    "type": node.get("__typename"),
+                })
+
+            return deployments
+        except Exception as e:
+            raise InfrahubAPIError(f"Failed to fetch deployments: {str(e)}")
+
+    def create_network_segment(
+        self, branch: str, data: Dict[str, Any]
+    ) -> Dict[str, Any]:
+        """Create a ServiceNetworkSegment object.
+
+        Args:
+            branch: Branch to create the object in
+            data: Network segment data dictionary with structure:
+                - customer_name: str
+                - environment: str (production, no-production)
+                - segment_type: str (l2_only, l3_gateway, l3_vrf)
+                - tenant_isolation: str (customer_dedicated, shared_controlled, public_shared)
+                - vlan_id: int
+                - deployment: str (ID)
+                - owner: str (ID)
+                - external_routing: bool (optional)
+                - prefix: str (ID, optional)
+
+        Returns:
+            Created network segment dictionary
+
+        Raises:
+            InfrahubConnectionError: If connection fails
+            InfrahubAPIError: If API error occurs
+        """
+        try:
+            mutation = """
+            mutation CreateNetworkSegment(
+                $customer_name: String!,
+                $environment: String!,
+                $segment_type: String!,
+                $tenant_isolation: String!,
+                $vlan_id: Int!,
+                $deployment: String!,
+                $owner: String!,
+                $external_routing: Boolean,
+                $prefix: String
+            ) {
+                ServiceNetworkSegmentCreate(
+                    data: {
+                        customer_name: { value: $customer_name }
+                        environment: { value: $environment }
+                        segment_type: { value: $segment_type }
+                        tenant_isolation: { value: $tenant_isolation }
+                        vlan_id: { value: $vlan_id }
+                        deployment: { id: $deployment }
+                        owner: { id: $owner }
+                        external_routing: { value: $external_routing }
+                        prefix: { id: $prefix }
+                    }
+                ) {
+                    ok
+                    object {
+                        id
+                        name { value }
+                    }
+                }
+            }
+            """
+
+            variables = {
+                "customer_name": data["customer_name"],
+                "environment": data["environment"],
+                "segment_type": data["segment_type"],
+                "tenant_isolation": data["tenant_isolation"],
+                "vlan_id": data["vlan_id"],
+                "deployment": data["deployment"],
+                "owner": data["owner"],
+                "external_routing": data.get("external_routing", False),
+                "prefix": data.get("prefix"),
+            }
+
+            result = self.execute_graphql(mutation, variables, branch)
+
+            if result.get("ServiceNetworkSegmentCreate", {}).get("ok"):
+                segment_obj = result["ServiceNetworkSegmentCreate"]["object"]
+                return {
+                    "id": segment_obj["id"],
+                    "name": segment_obj["name"]
+                }
+            else:
+                raise InfrahubAPIError(f"Failed to create network segment: {result}")
+
+        except Exception as e:
+            raise InfrahubAPIError(f"Failed to create network segment: {str(e)}")
+
+    def get_network_segments_by_deployment(
+        self, deployment_id: str, branch: str = "main"
+    ) -> List[Dict[str, Any]]:
+        """Fetch ServiceNetworkSegment objects for a specific deployment.
+
+        Args:
+            deployment_id: TopologyDeployment (e.g., TopologyDataCenter) ID
+            branch: Branch name to query (default: "main")
+
+        Returns:
+            List of network segment dictionaries with id, name, vlan_id, environment, etc.
+
+        Raises:
+            InfrahubConnectionError: If connection fails
+            InfrahubAPIError: If API error occurs
+        """
+        try:
+            query = """
+            query GetNetworkSegmentsByDeployment($deployment_id: ID!) {
+                ServiceNetworkSegment(deployment__ids: [$deployment_id]) {
+                    edges {
+                        node {
+                            id
+                            name { value }
+                            customer_name { value }
+                            environment { value }
+                            segment_type { value }
+                            tenant_isolation { value }
+                            vlan_id { value }
+                            owner {
+                                node {
+                                    id
+                                    display_label
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            """
+
+            result = self.execute_graphql(query, {"deployment_id": deployment_id}, branch)
+
+            segments = []
+            edges = result.get("ServiceNetworkSegment", {}).get("edges", [])
+
+            for edge in edges:
+                node = edge.get("node", {})
+                owner_node = node.get("owner", {}).get("node", {})
+                segments.append({
+                    "id": node.get("id"),
+                    "name": {"value": node.get("name", {}).get("value")},
+                    "customer_name": {"value": node.get("customer_name", {}).get("value")},
+                    "environment": {"value": node.get("environment", {}).get("value")},
+                    "segment_type": {"value": node.get("segment_type", {}).get("value")},
+                    "tenant_isolation": {"value": node.get("tenant_isolation", {}).get("value")},
+                    "vlan_id": {"value": node.get("vlan_id", {}).get("value")},
+                    "owner": {"value": owner_node.get("display_label") if owner_node else None},
+                })
+
+            return segments
+        except Exception as e:
+            raise InfrahubAPIError(f"Failed to fetch network segments: {str(e)}")
+
     def _sdk_object_to_dict(self, obj: Any) -> Dict[str, Any]:
         """Convert an SDK object to a dictionary.
 

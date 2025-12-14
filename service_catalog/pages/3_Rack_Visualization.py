@@ -4,7 +4,7 @@ This page provides a visual representation of physical racks and the devices
 mounted within them, similar to NetBox's rack diagram implementation.
 """
 
-import streamlit as st
+import streamlit as st  # type: ignore[import-untyped]
 
 from typing import Any, Dict, List
 
@@ -15,7 +15,6 @@ from utils import (
     INFRAHUB_UI_URL,
     InfrahubClient,
     display_error,
-    display_logo,
 )
 from utils.api import (
     InfrahubAPIError,
@@ -25,15 +24,6 @@ from utils.api import (
 )
 from utils.rack import generate_rack_html
 from utils.ui import get_role_legend
-
-
-# Configure page layout and title
-st.set_page_config(
-    page_title="Rack Visualization - Infrahub Service Catalog",
-    page_icon="🗄️",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
 
 # Initialize session state
 if "selected_branch" not in st.session_state:
@@ -241,9 +231,6 @@ def render_legend() -> None:
 
 def main() -> None:
     """Main function to render the rack visualization page."""
-
-    # Display logo in sidebar
-    display_logo()
 
     # Initialize API client
     client = InfrahubClient(

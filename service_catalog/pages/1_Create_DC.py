@@ -6,7 +6,7 @@ This page provides a form-based interface for creating new Data Centers in Infra
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-import streamlit as st
+import streamlit as st  # type: ignore[import-untyped]
 import yaml
 
 from utils import (
@@ -17,7 +17,6 @@ from utils import (
     INFRAHUB_UI_URL,
     InfrahubClient,
     display_error,
-    display_logo,
     display_success,
 )
 from utils.api import (
@@ -25,15 +24,6 @@ from utils.api import (
     InfrahubConnectionError,
     InfrahubGraphQLError,
     InfrahubHTTPError,
-)
-
-
-# Configure page layout and title
-st.set_page_config(
-    page_title="Create Data Center - Infrahub Service Catalog",
-    page_icon="🏗️",
-    layout="wide",
-    initial_sidebar_state="expanded",
 )
 
 # Initialize session state
@@ -427,9 +417,6 @@ def handle_dc_creation(client: InfrahubClient, form_data: Dict[str, Any]) -> Non
 
 def main() -> None:
     """Main function to render the Create DC page."""
-
-    # Display logo in sidebar
-    display_logo()
 
     # Page title
     st.title("Create Data Center")
