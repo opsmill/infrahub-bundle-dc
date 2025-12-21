@@ -2,9 +2,9 @@
 .env
 .envrc
 .kiro/
-.mypy_cache
+.ty_cache
 .python-version
-.venv
+.venv/
 .vscode/
 **/__pycache__
 **/.benchmarks

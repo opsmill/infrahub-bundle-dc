@@ -42,9 +42,9 @@ uv run pytest tests/unit/
 uv run pytest tests/integration/
 
 # Lint and type check
-uv run invoke lint         # Full suite: ruff, mypy, markdown, yaml
+uv run invoke lint         # Full suite: ruff, ty, markdown, yaml
 uv run ruff check . --fix  # Format and lint
-uv run mypy .              # Type checking only
+uv run ty check            # Type checking only
 ```
 
 ## Code Style Guidelines
@@ -53,7 +53,7 @@ uv run mypy .              # Type checking only
 
 - **Type hints required** on all function signatures
 - **Docstrings required** for all modules, classes, and functions (Google-style)
-- Format with `ruff`, pass `mypy` type checking
+- Format with `ruff`, pass `ty` type checking
 - PascalCase for classes, snake_case for functions/variables
 - Max line length: 100 characters
 - Use `pathlib` over `os.path`
@@ -105,7 +105,7 @@ See [tests/AGENTS.md](./tests/AGENTS.md) for detailed testing conventions.
 **IMPORTANT**: After making code changes, always run the full lint suite:
 
 ```bash
-uv run invoke lint  # Runs: markdownlint, yamllint, ruff, mypy
+uv run invoke lint  # Runs: markdownlint, yamllint, ruff, ty
 ```
 
 This ensures:
@@ -113,7 +113,7 @@ This ensures:
 - Markdown files have proper formatting (blank lines around code blocks, language specifiers)
 - YAML files are valid
 - Python code passes ruff linting
-- Type hints are correct (mypy)
+- Type hints are correct (ty)
 
 ## Security Considerations
 

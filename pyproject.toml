@@ -12,7 +12,7 @@ dependencies = [
     "infrahub-sdk[all]>=1.17.0,<2.0.0",
     "infrahub-testcontainers==1.6.1",
     "invoke>=2.2.1,<3.0.0",
-    "mypy>=1.19.0",
+    "ty>=0.0.1a14",
     "pytest>=9.0.2,<10.0.0",
     "pytest-asyncio>=1.3.0",
     "pytest-dependency>=0.6.0",
@@ -31,15 +31,14 @@ readme = "README.md"
 [tool.setuptools]
 packages = []
 
-[tool.mypy]
-pretty = true
-ignore_missing_imports = true
-disallow_untyped_defs = true
-exclude = ["scripts/debug/"]
+[tool.ty.environment]
+python-version = "3.12"
 
-[[tool.mypy.overrides]]
-module = ["untyped_package.*"]
-follow_untyped_imports = true
+[tool.ty.rules]
+unresolved-import = "ignore"
+
+[tool.ty.src]
+exclude = ["**/scripts/debug/**"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

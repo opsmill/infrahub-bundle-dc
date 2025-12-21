@@ -49,7 +49,7 @@ jobs:
           uv run ruff check
       - run: |
           echo "Running type checks"
-          uv run mypy .
+          uv run ty check
 
   yaml-lint:
     if: needs.files-changed.outputs.yaml == 'true'

@@ -633,11 +633,11 @@ def lint_yaml(context: Context) -> None:
         context.run(exec_cmd)
 
 
-@task(name="_lint-mypy")
-def lint_mypy(context: Context) -> None:
-    """Run mypy to check all Python files."""
-    print(" - Check code with mypy")
-    exec_cmd = "mypy --show-error-codes ."
+@task(name="_lint-ty")
+def lint_ty(context: Context) -> None:
+    """Run ty to check all Python files."""
+    print(" - Check code with ty")
+    exec_cmd = "ty check"
     with context.cd(MAIN_DIRECTORY_PATH):
         context.run(exec_cmd)
 
@@ -658,7 +658,7 @@ def lint_all(context: Context) -> None:
     console.print(
         Panel(
             "[bold yellow]Running All Linters[/bold yellow]\n"
-            "[dim]Markdown → YAML → Ruff → Mypy[/dim]",
+            "[dim]Markdown → YAML → Ruff → ty[/dim]",
             border_style="yellow",
             box=box.SIMPLE,
         )
@@ -673,8 +673,8 @@ def lint_all(context: Context) -> None:
     console.print("\n[yellow]→[/yellow] Running ruff...")
     lint_ruff(context)
 
-    console.print("\n[yellow]→[/yellow] Running mypy...")
-    lint_mypy(context)
+    console.print("\n[yellow]→[/yellow] Running ty...")
+    lint_ty(context)
 
     console.print("\n[green]✓[/green] All linters completed!")
     console.print()
