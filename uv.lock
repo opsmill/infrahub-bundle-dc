@@ -72,6 +72,15 @@ wheels = [
 ]
 
 [[package]]
+name = "async-timeout"
+version = "5.0.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a5/ae/136395dfbfe00dfc94da3f3e136d0b13f394cba8f4841120e34226265780/async_timeout-5.0.1.tar.gz", hash = "sha256:d9321a7a3d5a6a5e187e824d2fa0793ce379a202935782d555d6e9d2735677d3", size = 9274, upload-time = "2024-11-06T16:41:39.6Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fe/ba/e2081de779ca30d473f21f5b30e0e737c438205440784c7dfc81efc2b029/async_timeout-5.0.1-py3-none-any.whl", hash = "sha256:39e3809566ff85354557ec2398b55e096c8364bacac9405a7a1fa429e77fe76c", size = 6233, upload-time = "2024-11-06T16:41:37.9Z" },
+]
+
+[[package]]
 name = "attrs"
 version = "25.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -430,18 +439,17 @@ wheels = [
 
 [[package]]
 name = "httpx"
-version = "0.27.2"
+version = "0.28.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
     { name = "certifi" },
     { name = "httpcore" },
     { name = "idna" },
-    { name = "sniffio" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/78/82/08f8c936781f67d9e6b9eeb8a0c8b4e406136ea4c3d1f89a5db71d42e0e6/httpx-0.27.2.tar.gz", hash = "sha256:f7c2be1d2f3c3c3160d441802406b206c2b76f5947b11115e6df10c6c65e66c2", size = 144189, upload-time = "2024-08-27T12:54:01.334Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b1/df/48c586a5fe32a0f01324ee087459e112ebb7224f646c0b5023f5e79e9956/httpx-0.28.1.tar.gz", hash = "sha256:75e98c5f16b0f35b567856f597f06ff2270a374470a5c2392242528e3e3e42fc", size = 141406, upload-time = "2024-12-06T15:37:23.222Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/56/95/9377bcb415797e44274b51d46e3249eba641711cf3348050f76ee7b15ffc/httpx-0.27.2-py3-none-any.whl", hash = "sha256:7bb2708e112d8fdd7829cd4243970f0c223274051cb35ee80c03301ee29a3df0", size = 76395, upload-time = "2024-08-27T12:53:59.653Z" },
+    { url = "https://files.pythonhosted.org/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl", hash = "sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad", size = 73517, upload-time = "2024-12-06T15:37:21.509Z" },
 ]
 
 [package.optional-dependencies]
@@ -511,7 +519,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "infrahub-sdk", extras = ["all"], specifier = ">=1.17.0,<2.0.0" },
-    { name = "infrahub-testcontainers", specifier = "==1.6.1" },
+    { name = "infrahub-testcontainers", specifier = "==1.5.5" },
     { name = "invoke", specifier = ">=2.2.1,<3.0.0" },
     { name = "mypy", specifier = ">=1.19.0" },
     { name = "pytest", specifier = ">=9.0.2,<10.0.0" },
@@ -560,7 +568,7 @@ all = [
 
 [[package]]
 name = "infrahub-testcontainers"
-version = "1.6.1"
+version = "1.5.5"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "httpx" },
@@ -570,9 +578,9 @@ dependencies = [
     { name = "pytest" },
     { name = "testcontainers" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/8f/91/b1e5b6281849b6dd56ae8a5c5d2b0bdf4c998952ebebc2b9dc7d7fe6cb3c/infrahub_testcontainers-1.6.1.tar.gz", hash = "sha256:0eee436bd8510f804758820dc7a10b92c4becb8f8583c0d5f44bd5fd722b05aa", size = 16395, upload-time = "2025-12-11T21:56:32.975Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/35/ff/76557304631d521337b705373acbda0cf89a4606827357610ceda5d990d0/infrahub_testcontainers-1.5.5.tar.gz", hash = "sha256:5ba46dde666fad94c8c246ea086b957de63f06ddb7b8ac92ea5881f104068527", size = 16095, upload-time = "2025-12-22T19:37:30.129Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/72/15/6491b0089cb7efc3a538a4a508f3d898644dc5c6a5e35be7248b1ec602ce/infrahub_testcontainers-1.6.1-py3-none-any.whl", hash = "sha256:ba8c366d083cc5a3d094bf8984867760d5a0d95588f0f20a0543b09807d58ce8", size = 23039, upload-time = "2025-12-11T21:56:31.86Z" },
+    { url = "https://files.pythonhosted.org/packages/d8/12/e55163d1208085dde87bd8756a827ed5a3c33bb2e9d1e9e92156746489a3/infrahub_testcontainers-1.5.5-py3-none-any.whl", hash = "sha256:04de4367a267a0f182618155aeb1bb36d5ca6258773480e3337327e217965738", size = 23109, upload-time = "2025-12-22T19:37:29.041Z" },
 ]
 
 [[package]]
@@ -999,7 +1007,7 @@ wheels = [
 
 [[package]]
 name = "prefect-client"
-version = "3.5.0"
+version = "3.4.23"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
@@ -1030,6 +1038,7 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "python-dateutil" },
     { name = "python-slugify" },
+    { name = "python-socks", extra = ["asyncio"] },
     { name = "pytz" },
     { name = "pyyaml" },
     { name = "rfc3339-validator" },
@@ -1041,9 +1050,9 @@ dependencies = [
     { name = "uvicorn" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b5/ea/ca532ca405b9127b16161b7c6f6fdf44f436e9dacb8e08056080761beff7/prefect_client-3.5.0.tar.gz", hash = "sha256:10b9c700288ee1d7513fdfdb394eca0807e461f8bd8da9edf2433f276cc23a17", size = 681939, upload-time = "2025-10-31T18:03:09.833Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/13/26/f11ab9c0d1533b3b40dac593f7c5eafa4765697a9e926bdbc00687387ee4/prefect_client-3.4.23.tar.gz", hash = "sha256:23d035c1e5a9df0c69c701c5f6ad3f8b80530c19a2383b4ca319a2397fe09ac4", size = 672422, upload-time = "2025-10-09T20:39:30.556Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2f/d3/b9ef344b5cf86dc544914d9260b657a521f6fdc97b85a591c0dfe2903371/prefect_client-3.5.0-py3-none-any.whl", hash = "sha256:70e2ab2d0e44534388e6daa052e0ee52c86b2263e0bdb450cf1101027504c191", size = 843344, upload-time = "2025-10-31T18:03:07.715Z" },
+    { url = "https://files.pythonhosted.org/packages/90/91/3210a6924c7957073785bb3f3246ad518130dcb672b7bd12e52ae990d9f6/prefect_client-3.4.23-py3-none-any.whl", hash = "sha256:6d3ac95ced68a3d5d461e13f90df35871ce90e58194b8a354f840c6a8e6c1fa1", size = 831473, upload-time = "2025-10-09T20:39:28.377Z" },
 ]
 
 [[package]]
@@ -1319,6 +1328,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/87/c7/5e1547c44e31da50a460df93af11a535ace568ef89d7a811069ead340c4a/python-slugify-8.0.4.tar.gz", hash = "sha256:59202371d1d05b54a9e7720c5e038f928f45daaffe41dd10822f3907b937c856", size = 10921, upload-time = "2024-02-08T18:32:45.488Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/a4/62/02da182e544a51a5c3ccf4b03ab79df279f9c60c5e82d5e8bec7ca26ac11/python_slugify-8.0.4-py2.py3-none-any.whl", hash = "sha256:276540b79961052b66b7d116620b36518847f52d5fd9e3a70164fc8c50faa6b8", size = 10051, upload-time = "2024-02-08T18:32:43.911Z" },
+]
+
+[[package]]
+name = "python-socks"
+version = "2.8.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/6c/07/cfdd6a846ac859e513b4e68bb6c669a90a74d89d8d405516fba7fc9c6f0c/python_socks-2.8.0.tar.gz", hash = "sha256:340f82778b20a290bdd538ee47492978d603dff7826aaf2ce362d21ad9ee6f1b", size = 273130, upload-time = "2025-12-09T12:17:05.433Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/13/10/e2b575faa32d1d32e5e6041fc64794fa9f09526852a06b25353b66f52cae/python_socks-2.8.0-py3-none-any.whl", hash = "sha256:57c24b416569ccea493a101d38b0c82ed54be603aa50b6afbe64c46e4a4e4315", size = 55075, upload-time = "2025-12-09T12:17:03.269Z" },
+]
+
+[package.optional-dependencies]
+asyncio = [
+    { name = "async-timeout", marker = "python_full_version < '3.11'" },
 ]
 
 [[package]]
