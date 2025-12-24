@@ -435,8 +435,8 @@ class TopologyCreator:
 
         # Get the building we just created
         building = self.client.store.get(
-            kind="LocationBuilding",
             key=site_name,
+            kind="LocationBuilding",
             branch=self.branch,
         )
 
@@ -1202,8 +1202,10 @@ class TopologyCreator:
             await cable.save(allow_upsert=True)
 
             # Set the connector relationship on both interfaces
-            source_endpoint.connector = cable.id
-            target_endpoint.connector = cable.id
+            # After save(), cable.id is guaranteed to be set
+            if cable.id is not None:
+                source_endpoint.connector = cable.id
+                target_endpoint.connector = cable.id
 
             batch.add(
                 task=source_endpoint.save, allow_upsert=True, node=source_endpoint

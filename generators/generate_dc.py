@@ -187,8 +187,10 @@ class DCTopologyCreator(TopologyCreator):
 
             # Set bidirectional connector relationship
             # This allows queries to traverse: interface → connector → cable → connected_endpoints
-            source_endpoint.connector = cable.id
-            target_endpoint.connector = cable.id
+            # After save(), cable.id is guaranteed to be set
+            if cable.id is not None:
+                source_endpoint.connector = cable.id
+                target_endpoint.connector = cable.id
 
             # Queue interface saves for batch
             batch.add(

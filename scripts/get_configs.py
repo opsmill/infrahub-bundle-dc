@@ -52,7 +52,7 @@ async def get_containerlab_topologies(client: InfrahubClient) -> list[str]:
                 )
                 output_file = directory_path / f"{topology.name.value}.clab.yml"
                 with open(output_file, "w") as file:
-                    file.write(artifact_content)
+                    file.write(str(artifact_content))
                 console.print(
                     f"  [green]✓[/green] Saved topology: [bold]{output_file}[/bold]"
                 )
@@ -137,7 +137,7 @@ async def get_device_configs(client: InfrahubClient) -> int:
                     # Save the configuration directly in devices folder
                     output_file = base_path / f"{device.name.value}.{extension}"
                     with open(output_file, "w") as file:
-                        file.write(artifact_content)
+                        file.write(str(artifact_content))
 
                     console.print(
                         f"  [green]✓[/green] Saved [bold]{device.name.value}.{extension}[/bold]"
@@ -181,7 +181,7 @@ async def get_topology_cabling(client: InfrahubClient) -> int:
                 artifact_content = await topology.artifact_fetch("topology-cabling")
                 output_file = directory_path / f"{topology.name.value}-cabling.txt"
                 with open(output_file, "w") as file:
-                    file.write(artifact_content)
+                    file.write(str(artifact_content))
                 console.print(
                     f"  [green]✓[/green] Saved cabling matrix: [bold]{output_file}[/bold]"
                 )

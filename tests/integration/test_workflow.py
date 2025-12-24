@@ -18,6 +18,7 @@ The Infrahub SDK uses dynamic attribute generation at runtime.
 import asyncio
 import logging
 from collections.abc import Awaitable, Callable, Generator
+from pathlib import Path
 from typing import Any, TypeVar
 
 import pytest
@@ -229,7 +230,7 @@ class TestDCWorkflow(TestInfrahubDockerWithClient):
         git_repository = GitRepo(
             name="demo_repo",
             src_directory=src_directory,
-            dst_directory=remote_repos_dir,
+            dst_directory=Path(remote_repos_dir),
         )
 
         response = await git_repository.add_to_infrahub(client=client)

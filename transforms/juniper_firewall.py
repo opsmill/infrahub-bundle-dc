@@ -16,11 +16,12 @@ class JuniperFirewall(InfrahubTransform):
 
         firewall = firewall_edges[0]["node"]
 
-        # Build template data structure
-        template_data = {
+        # Build template data structure with explicit typing for zone_pairs
+        zone_pairs: dict[tuple[str, str], list[dict[str, Any]]] = {}
+        template_data: dict[str, Any] = {
             "device_name": firewall["name"]["value"],
             "interfaces": [],
-            "zone_pairs": {},  # Organize policies by (source_zone, dest_zone)
+            "zone_pairs": zone_pairs,
             "addresses": {},  # Unique addresses for global address book
             "applications": {},  # Unique applications
         }
@@ -58,17 +59,20 @@ class JuniperFirewall(InfrahubTransform):
             for rule_edge in policy.get("rules", {}).get("edges", []):
                 rule = rule_edge["node"]
 
-                # Build rule data
-                rule_data = {
+                # Build rule data with typed lists for appending
+                source_addresses: list[str] = []
+                destination_addresses: list[str] = []
+                applications: list[str] = []
+                rule_data: dict[str, Any] = {
                     "index": rule.get("index", {}).get("value", 0),
                     "name": rule.get("name", {}).get("value", "unnamed-rule"),
                     "action": rule.get("action", {}).get("value", "deny"),
                     "log": rule.get("log", {}).get("value", False),
                     "source_zone": None,
                     "destination_zone": None,
-                    "source_addresses": [],
-                    "destination_addresses": [],
-                    "applications": [],
+                    "source_addresses": source_addresses,
+                    "destination_addresses": destination_addresses,
+                    "applications": applications,
                 }
 
                 # Extract zones
@@ -94,7 +98,7 @@ class JuniperFirewall(InfrahubTransform):
                         addr_name = ip["name"]["value"]
                         addr_value = ip["ipam_ip_address"]["node"]["address"]["value"]
 
-                        rule_data["source_addresses"].append(addr_name)
+                        source_addresses.append(addr_name)
 
                         if addr_name not in template_data["addresses"]:
                             template_data["addresses"][addr_name] = {
@@ -108,7 +112,7 @@ class JuniperFirewall(InfrahubTransform):
                         addr_name = prefix["name"]["value"]
                         addr_value = prefix["ipam_prefix"]["node"]["prefix"]["value"]
 
-                        rule_data["source_addresses"].append(addr_name)
+                        source_addresses.append(addr_name)
 
                         if addr_name not in template_data["addresses"]:
                             template_data["addresses"][addr_name] = {
@@ -122,7 +126,7 @@ class JuniperFirewall(InfrahubTransform):
                         addr_name = fqdn["name"]["value"]
                         addr_value = fqdn["fqdn"]["value"]
 
-                        rule_data["source_addresses"].append(addr_name)
+                        source_addresses.append(addr_name)
 
                         if addr_name not in template_data["addresses"]:
                             template_data["addresses"][addr_name] = {
@@ -142,7 +146,7 @@ class JuniperFirewall(InfrahubTransform):
                         addr_name = ip["name"]["value"]
                         addr_value = ip["ipam_ip_address"]["node"]["address"]["value"]
 
-                        rule_data["destination_addresses"].append(addr_name)
+                        destination_addresses.append(addr_name)
 
                         if addr_name not in template_data["addresses"]:
                             template_data["addresses"][addr_name] = {
@@ -156,7 +160,7 @@ class JuniperFirewall(InfrahubTransform):
                         addr_name = prefix["name"]["value"]
                         addr_value = prefix["ipam_prefix"]["node"]["prefix"]["value"]
 
-                        rule_data["destination_addresses"].append(addr_name)
+                        destination_addresses.append(addr_name)
 
                         if addr_name not in template_data["addresses"]:
                             template_data["addresses"][addr_name] = {
@@ -170,7 +174,7 @@ class JuniperFirewall(InfrahubTransform):
                         addr_name = fqdn["name"]["value"]
                         addr_value = fqdn["fqdn"]["value"]
 
-                        rule_data["destination_addresses"].append(addr_name)
+                        destination_addresses.append(addr_name)
 
                         if addr_name not in template_data["addresses"]:
                             template_data["addresses"][addr_name] = {
@@ -187,7 +191,7 @@ class JuniperFirewall(InfrahubTransform):
                         svc = svc_edge["node"]
                         svc_name = svc["name"]["value"]
 
-                        rule_data["applications"].append(svc_name)
+                        applications.append(svc_name)
 
                         # Add to global applications
                         if svc_name not in template_data["applications"]:
@@ -199,18 +203,17 @@ class JuniperFirewall(InfrahubTransform):
                             }
 
                 # Organize rules by zone pairs
-                if rule_data["source_zone"] and rule_data["destination_zone"]:
-                    zone_pair = (
-                        rule_data["source_zone"],
-                        rule_data["destination_zone"],
-                    )
-                    if zone_pair not in template_data["zone_pairs"]:
-                        template_data["zone_pairs"][zone_pair] = []
-                    template_data["zone_pairs"][zone_pair].append(rule_data)
+                src_zone = rule_data["source_zone"]
+                dst_zone = rule_data["destination_zone"]
+                if src_zone and dst_zone:
+                    zone_pair_key: tuple[str, str] = (str(src_zone), str(dst_zone))
+                    if zone_pair_key not in zone_pairs:
+                        zone_pairs[zone_pair_key] = []
+                    zone_pairs[zone_pair_key].append(rule_data)
 
         # Sort rules within each zone pair by index
-        for zone_pair in template_data["zone_pairs"]:
-            template_data["zone_pairs"][zone_pair].sort(key=lambda x: x["index"])
+        for zp_key in zone_pairs:
+            zone_pairs[zp_key].sort(key=lambda x: x["index"])
 
         # Set up Jinja2 environment
         template_path = f"{self.root_directory}/templates"
