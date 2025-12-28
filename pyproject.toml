@@ -3,33 +3,48 @@ requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-authors = [
-    {name = "Tomek Zajac", email = "tomek@mastuazi.com"},
-    {name = "Pete Crocker", email = "pete@opsmill.com"},
-]
-requires-python = "<3.13,>3.10"
-dependencies = [
-    "infrahub-sdk[all]>=1.17.0,<2.0.0",
-    "infrahub-testcontainers==1.6.1",
-    "invoke>=2.2.1,<3.0.0",
-    "mypy>=1.19.0",
-    "pytest>=9.0.2,<10.0.0",
-    "pytest-asyncio>=1.3.0",
-    "pytest-dependency>=0.6.0",
-    "pytest-order>=1.3.0",
-    "rich>=13.9.4,<14.0.0",
-    "ruff>=0.14.9",
-    "types-pyyaml>=6.0.12.20250915",
-    "types-requests>=2.32.4.20250913",
-    "yamllint>=1.37.1",
-]
 name = "infrahub-bundle-dc"
 version = "1.0.1"
 description = "Design driven automation with Infrahub"
 readme = "README.md"
+authors = [
+    {name = "Tomek Zajac", email = "tomek@mastuazi.com"},
+    {name = "Pete Crocker", email = "pete@opsmill.com"},
+]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "infrahub-sdk[all]>=1.17.0,<2.0.0",
+    "invoke>=2.2.1,<3.0.0",
+    "rich>=13.9.4,<14.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "infrahub-testcontainers==1.6.1",
+    "mypy>=1.19.1",
+    "pytest>=9.0.0",
+    "pytest-asyncio>=1.3.0",
+    "pytest-dependency>=0.6.0",
+    "pytest-order>=1.3.0",
+    "ruff>=0.14.10",
+    "types-pyyaml>=6.0.12",
+    "types-requests>=2.32.0",
+    "yamllint>=1.37.1",
+]
 
 [tool.setuptools]
 packages = []
+
+[tool.ruff]
+line-length = 120
+exclude = [".venv/", ".dev/"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
 
 [tool.mypy]
 pretty = true
