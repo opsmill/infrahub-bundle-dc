@@ -5,7 +5,7 @@ title: Cloud resource management
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-This tutorial introduces the cloud resource management schema, which provides a vendor-agnostic way to model cloud infrastructure across AWS, GCP, and Azure. You'll load sample cloud data and explore how Infrahub can serve as a unified inventory for multi-cloud environments.
+This tutorial shows an example of cloud resource management schema, which provides a vendor-agnostic way to model cloud infrastructure across AWS, GCP, and Azure. You'll load sample cloud data and explore how Infrahub can serve as a unified inventory for multi-cloud environments.
 
 ## Overview
 
@@ -35,8 +35,6 @@ Before starting this tutorial, ensure you have:
 
 The demo includes sample data for all three major cloud providers with realistic infrastructure examples.
 
-### Quick start with invoke
-
 The easiest way to load the cloud demo is using the provided invoke task:
 
 ```bash
@@ -49,37 +47,6 @@ This command:
 2. Loads all schemas (including the cloud schema)
 3. Loads cloud object files with sample data for AWS, GCP, and Azure
 4. Displays a URL to view the cloud resources
-
-### Manual loading
-
-If you prefer to load the data manually or into an existing branch:
-
-<Tabs>
-  <TabItem value="new-branch" label="New Branch">
-
-```bash
-# Create a new branch
-uv run infrahubctl branch create my-cloud-branch
-
-# Load schemas
-uv run infrahubctl schema load schemas/ --branch my-cloud-branch
-
-# Load cloud objects
-uv run infrahubctl object load objects/cloud/ --branch my-cloud-branch
-```
-
-  </TabItem>
-  <TabItem value="existing-branch" label="Existing Branch">
-
-If the cloud schema is already loaded on your branch:
-
-```bash
-# Load cloud objects to an existing branch
-uv run infrahubctl object load objects/cloud/ --branch your-branch-name
-```
-
-  </TabItem>
-</Tabs>
 
 ## Exploring cloud resources
 
@@ -220,26 +187,7 @@ Document your cloud network architecture:
 - Track NAT and internet gateway configurations
 - Document network interface assignments
 
-## Extending the schema
-
-The cloud schema can be extended to include additional cloud services:
-
-- **Storage**: S3 buckets, Cloud Storage, Blob Storage
-- **Databases**: RDS, Cloud SQL, Azure SQL
-- **Load balancers**: ALB/NLB, Cloud Load Balancing, Azure Load Balancer
-- **DNS**: Route 53, Cloud DNS, Azure DNS
-- **Kubernetes**: EKS, GKE, AKS clusters
-
-To extend the schema, create additional node definitions in `schemas/extensions/cloud/` following the existing patterns.
-
 ## Next steps
-
-After exploring cloud resources, you can:
-
-- **Create branches** to model planned cloud changes
-- **Use proposed changes** to review infrastructure modifications before applying
-- **Integrate with cloud APIs** to sync actual cloud state into Infrahub
-- **Build transforms** to generate cloud infrastructure-as-code (Terraform, CloudFormation, etc.)
 
 For more information on Infrahub concepts, see:
 
