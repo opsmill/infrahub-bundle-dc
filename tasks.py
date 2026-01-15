@@ -644,8 +644,7 @@ def demo_cloud(context: Context, branch: str = "demo-cloud") -> None:
     console.print()
     console.print(
         Panel(
-            f"[bold green]✓ Cloud demo ready[/bold green]\n\n"
-            f"[cyan]Cloud Resources:[/cyan] {cloud_url}",
+            f"[bold green]✓ Cloud demo ready[/bold green]\n\n[cyan]Cloud Resources:[/cyan] {cloud_url}",
             border_style="green",
             box=box.SIMPLE,
         )
