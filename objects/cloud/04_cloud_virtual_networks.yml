@@ -1,0 +1,137 @@
+# Cloud Virtual Networks (VPCs/VNets) for AWS, GCP, and Azure
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudVirtualNetwork
+  data:
+    # AWS VPCs
+    - name: "aws-prod-vpc-east"
+      description: "Production VPC in US East"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:vpc/vpc-0abc123def456"
+      status: active
+      account: "opsmill-aws-production"
+      region: "US East (N. Virginia)"
+      is_default: false
+      dns_support: true
+      dns_hostnames: true
+
+    - name: "aws-prod-vpc-west"
+      description: "Production VPC in US West"
+      cloud_id: "arn:aws:ec2:us-west-2:123456789012:vpc/vpc-0def456abc789"
+      status: active
+      account: "opsmill-aws-production"
+      region: "US West (Oregon)"
+      is_default: false
+      dns_support: true
+      dns_hostnames: true
+
+    - name: "aws-staging-vpc"
+      description: "Staging VPC in US East"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789013:vpc/vpc-0staging123"
+      status: active
+      account: "opsmill-aws-staging"
+      region: "US East (N. Virginia)"
+      is_default: false
+      dns_support: true
+      dns_hostnames: false
+
+    - name: "aws-dev-vpc"
+      description: "Development VPC"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789014:vpc/vpc-0dev456789"
+      status: active
+      account: "opsmill-aws-dev"
+      region: "US East (N. Virginia)"
+      is_default: false
+      dns_support: true
+      dns_hostnames: false
+
+    # GCP VPCs
+    - name: "gcp-prod-vpc"
+      description: "Production VPC in GCP"
+      cloud_id: "projects/opsmill-prod-12345/global/networks/prod-vpc"
+      status: active
+      account: "opsmill-gcp-production"
+      region: "US Central (Iowa)"
+      is_default: false
+      dns_support: true
+      dns_hostnames: true
+
+    - name: "gcp-prod-vpc-eu"
+      description: "Production VPC in GCP Europe"
+      cloud_id: "projects/opsmill-prod-12345/global/networks/prod-vpc-eu"
+      status: active
+      account: "opsmill-gcp-production"
+      region: "Europe West (Belgium)"
+      is_default: false
+      dns_support: true
+      dns_hostnames: true
+
+    - name: "gcp-staging-vpc"
+      description: "Staging VPC in GCP"
+      cloud_id: "projects/opsmill-stg-12345/global/networks/staging-vpc"
+      status: active
+      account: "opsmill-gcp-staging"
+      region: "US Central (Iowa)"
+      is_default: false
+      dns_support: true
+      dns_hostnames: false
+
+    - name: "gcp-dev-vpc"
+      description: "Development VPC in GCP"
+      cloud_id: "projects/opsmill-dev-12345/global/networks/dev-vpc"
+      status: active
+      account: "opsmill-gcp-dev"
+      region: "US East (South Carolina)"
+      is_default: false
+      dns_support: true
+      dns_hostnames: false
+
+    # Azure VNets
+    - name: "azure-prod-vnet-east"
+      description: "Production VNet in East US"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/virtualNetworks/prod-vnet-east
+      status: active
+      account: "opsmill-azure-production"
+      region: "East US"
+      is_default: false
+      dns_support: true
+      dns_hostnames: true
+
+    - name: "azure-prod-vnet-eu"
+      description: "Production VNet in West Europe"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/virtualNetworks/prod-vnet-eu
+      status: active
+      account: "opsmill-azure-production"
+      region: "West Europe"
+      is_default: false
+      dns_support: true
+      dns_hostnames: true
+
+    - name: "azure-staging-vnet"
+      description: "Staging VNet in East US"
+      cloud_id: >-
+        /subscriptions/b2c3d4e5/resourceGroups/staging-rg/
+        providers/Microsoft.Network/virtualNetworks/staging-vnet
+      status: active
+      account: "opsmill-azure-staging"
+      region: "East US"
+      is_default: false
+      dns_support: true
+      dns_hostnames: false
+
+    - name: "azure-dev-vnet"
+      description: "Development VNet in West US 2"
+      cloud_id: >-
+        /subscriptions/c3d4e5f6/resourceGroups/dev-rg/
+        providers/Microsoft.Network/virtualNetworks/dev-vnet
+      status: active
+      account: "opsmill-azure-dev"
+      region: "West US 2"
+      is_default: false
+      dns_support: true
+      dns_hostnames: false

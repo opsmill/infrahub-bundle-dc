@@ -1,0 +1,177 @@
+# Cloud Regions and Availability Zones for AWS, GCP, and Azure
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudRegion
+  data:
+    # AWS Regions
+    - name: "US East (N. Virginia)"
+      region_code: "us-east-1"
+      geographic_location: "Northern Virginia, USA"
+      provider: "Amazon Web Services"
+
+    - name: "US West (Oregon)"
+      region_code: "us-west-2"
+      geographic_location: "Oregon, USA"
+      provider: "Amazon Web Services"
+
+    - name: "EU West (Ireland)"
+      region_code: "eu-west-1"
+      geographic_location: "Dublin, Ireland"
+      provider: "Amazon Web Services"
+
+    # GCP Regions
+    - name: "US Central (Iowa)"
+      region_code: "us-central1"
+      geographic_location: "Council Bluffs, Iowa, USA"
+      provider: "Google Cloud Platform"
+
+    - name: "US East (South Carolina)"
+      region_code: "us-east1"
+      geographic_location: "Moncks Corner, South Carolina, USA"
+      provider: "Google Cloud Platform"
+
+    - name: "Europe West (Belgium)"
+      region_code: "europe-west1"
+      geographic_location: "St. Ghislain, Belgium"
+      provider: "Google Cloud Platform"
+
+    # Azure Regions
+    - name: "East US"
+      region_code: "eastus"
+      geographic_location: "Virginia, USA"
+      provider: "Microsoft Azure"
+
+    - name: "West US 2"
+      region_code: "westus2"
+      geographic_location: "Washington, USA"
+      provider: "Microsoft Azure"
+
+    - name: "West Europe"
+      region_code: "westeurope"
+      geographic_location: "Netherlands"
+      provider: "Microsoft Azure"
+
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudAvailabilityZone
+  data:
+    # AWS US East (N. Virginia) Zones
+    - name: "US East 1a"
+      zone_code: "us-east-1a"
+      region: "US East (N. Virginia)"
+
+    - name: "US East 1b"
+      zone_code: "us-east-1b"
+      region: "US East (N. Virginia)"
+
+    - name: "US East 1c"
+      zone_code: "us-east-1c"
+      region: "US East (N. Virginia)"
+
+    # AWS US West (Oregon) Zones
+    - name: "US West 2a"
+      zone_code: "us-west-2a"
+      region: "US West (Oregon)"
+
+    - name: "US West 2b"
+      zone_code: "us-west-2b"
+      region: "US West (Oregon)"
+
+    - name: "US West 2c"
+      zone_code: "us-west-2c"
+      region: "US West (Oregon)"
+
+    # AWS EU West (Ireland) Zones
+    - name: "EU West 1a"
+      zone_code: "eu-west-1a"
+      region: "EU West (Ireland)"
+
+    - name: "EU West 1b"
+      zone_code: "eu-west-1b"
+      region: "EU West (Ireland)"
+
+    - name: "EU West 1c"
+      zone_code: "eu-west-1c"
+      region: "EU West (Ireland)"
+
+    # GCP US Central (Iowa) Zones
+    - name: "US Central 1a"
+      zone_code: "us-central1-a"
+      region: "US Central (Iowa)"
+
+    - name: "US Central 1b"
+      zone_code: "us-central1-b"
+      region: "US Central (Iowa)"
+
+    - name: "US Central 1c"
+      zone_code: "us-central1-c"
+      region: "US Central (Iowa)"
+
+    # GCP US East (South Carolina) Zones
+    - name: "US East 1b"
+      zone_code: "us-east1-b"
+      region: "US East (South Carolina)"
+
+    - name: "US East 1c"
+      zone_code: "us-east1-c"
+      region: "US East (South Carolina)"
+
+    - name: "US East 1d"
+      zone_code: "us-east1-d"
+      region: "US East (South Carolina)"
+
+    # GCP Europe West (Belgium) Zones
+    - name: "Europe West 1b"
+      zone_code: "europe-west1-b"
+      region: "Europe West (Belgium)"
+
+    - name: "Europe West 1c"
+      zone_code: "europe-west1-c"
+      region: "Europe West (Belgium)"
+
+    - name: "Europe West 1d"
+      zone_code: "europe-west1-d"
+      region: "Europe West (Belgium)"
+
+    # Azure East US Zones
+    - name: "East US Zone 1"
+      zone_code: "eastus-1"
+      region: "East US"
+
+    - name: "East US Zone 2"
+      zone_code: "eastus-2"
+      region: "East US"
+
+    - name: "East US Zone 3"
+      zone_code: "eastus-3"
+      region: "East US"
+
+    # Azure West US 2 Zones
+    - name: "West US 2 Zone 1"
+      zone_code: "westus2-1"
+      region: "West US 2"
+
+    - name: "West US 2 Zone 2"
+      zone_code: "westus2-2"
+      region: "West US 2"
+
+    - name: "West US 2 Zone 3"
+      zone_code: "westus2-3"
+      region: "West US 2"
+
+    # Azure West Europe Zones
+    - name: "West Europe Zone 1"
+      zone_code: "westeurope-1"
+      region: "West Europe"
+
+    - name: "West Europe Zone 2"
+      zone_code: "westeurope-2"
+      region: "West Europe"
+
+    - name: "West Europe Zone 3"
+      zone_code: "westeurope-3"
+      region: "West Europe"
