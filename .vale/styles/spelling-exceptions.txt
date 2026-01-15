@@ -23,6 +23,7 @@ dns
 Docker's
 Dockerfile
 Docusaurus
+ENIs
 env
 envrc
 evolvability
@@ -47,6 +48,8 @@ mermaid
 namespace
 namespaces
 Netbox
+NICs
+NSGs
 netmiko
 npm
 OSPF
@@ -72,5 +75,7 @@ uv
 VIPs
 VLAN
 VLANs
+VNets
+VPCs
 VXLAN
 walkthrough
