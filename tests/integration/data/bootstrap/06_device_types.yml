@@ -2,7 +2,7 @@
 apiVersion: infrahub.app/v1
 kind: Object
 spec:
-  kind: DcimDeviceType
+  kind: DcimPhysicalDeviceType
   data:
     # UNUSED: Juniper MX204 not used in integration tests (QFX5220-32CD is used in objects/bootstrap version)
     # - name: MX204

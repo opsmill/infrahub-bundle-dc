@@ -75,8 +75,8 @@ spec:
 
                 - namespace: Dcim
                   name: DeviceType
-                  label: Device Types
-                  kind: DcimDeviceType
+                  label: All Device Types
+                  kind: DcimGenericDeviceType
                   icon: "mdi:package-variant"
 
     # ===================== LOAD BALANCING =====================
@@ -87,7 +87,6 @@ spec:
       icon: carbon:load-balancer-global
       children:
         data:
-
           - namespace: Loadbalancing
             name: HealthCheck
             label: Health-Checks

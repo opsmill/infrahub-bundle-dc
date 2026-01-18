@@ -54,7 +54,7 @@ nodes:
         order_weight: 1200
     relationships:
       - name: device_type
-        peer: DcimDeviceType
+        peer: DcimGenericDeviceType
         cardinality: many
         optional: true
       - name: platform
