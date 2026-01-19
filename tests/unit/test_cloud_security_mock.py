@@ -165,7 +165,7 @@ spec:
   kind: DcimVirtualDevice
   data:
     - name: zscaler-zia-gateway-01
-      device_type: ZIA-Gateway
+      device_type: [Zscaler, ZIA-Gateway]
       description: Production Zscaler gateway
     - name: zscaler-zpa-connector-01
       device_type: ZPA-Connector
