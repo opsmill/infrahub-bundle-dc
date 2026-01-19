@@ -22,6 +22,27 @@ generics:
         kind: Text
         optional: true
         order_weight: 2000
+      - name: status
+        kind: Dropdown
+        optional: false
+        order_weight: 1100
+        choices:
+          - name: active
+            label: Active
+            description: Fully operational and currently in service.
+            color: "#7fbf7f"
+          - name: provisioning
+            label: Provisioning
+            description: In the process of being set up and configured.
+            color: "#ffff7f"
+          - name: maintenance
+            label: Maintenance
+            description: Undergoing routine maintenance or repairs.
+            color: "#ffd27f"
+          - name: drained
+            label: Drained
+            description: Temporarily taken out of service.
+            color: "#bfbfbf"
       - name: os_version
         kind: Text
         optional: true
@@ -465,27 +486,6 @@ nodes:
       - DcimGenericDevice
       - DcimPhysicalDevice
     attributes:
-      - name: status
-        kind: Dropdown
-        optional: false
-        order_weight: 1100
-        choices:
-          - name: active
-            label: Active
-            description: Fully operational and currently in service.
-            color: "#7fbf7f"
-          - name: provisioning
-            label: Provisioning
-            description: In the process of being set up and configured.
-            color: "#ffff7f"
-          - name: maintenance
-            label: Maintenance
-            description: Undergoing routine maintenance or repairs.
-            color: "#ffd27f"
-          - name: drained
-            label: Drained
-            description: Temporarily taken out of service.
-            color: "#bfbfbf"
       - name: role
         kind: Dropdown
         optional: true
@@ -557,27 +557,6 @@ nodes:
       - CoreArtifactTarget
       - DcimGenericDevice
     attributes:
-      - name: status
-        kind: Dropdown
-        optional: false
-        order_weight: 1100
-        choices:
-          - name: active
-            label: Active
-            description: Fully operational and currently in service.
-            color: "#7fbf7f"
-          - name: provisioning
-            label: Provisioning
-            description: In the process of being set up and configured.
-            color: "#ffff7f"
-          - name: maintenance
-            label: Maintenance
-            description: Undergoing routine maintenance or repairs.
-            color: "#ffd27f"
-          - name: drained
-            label: Drained
-            description: Temporarily taken out of service.
-            color: "#bfbfbf"
       - name: role
         kind: Dropdown
         optional: true
