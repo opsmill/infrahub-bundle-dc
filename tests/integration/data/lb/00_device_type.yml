@@ -9,10 +9,10 @@ spec:
       height: 1
       full_depth: false
       manufacturer: HAProxy Technologies
-      platform: Linux
+      platform: [Generic, Linux]
     - name: NGINX
       part_number: NGINX
       height: 1
       full_depth: false
       manufacturer: F5 Networks
-      platform: Linux
+      platform: [Generic, Linux]

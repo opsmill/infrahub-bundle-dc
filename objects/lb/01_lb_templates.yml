@@ -6,7 +6,7 @@ spec:
   data:
     - template_name: HA-PROXY
       device_type: HA-PROXY
-      platform: Linux
+      platform: [Generic, Linux]
       role: load_balancer
       status: active
       cpu: 2
@@ -21,7 +21,7 @@ spec:
           - loadbalancers
     - template_name: NGINX
       device_type: NGINX
-      platform: Linux
+      platform: [Generic, Linux]
       role: load_balancer
       status: active
       cpu: 2

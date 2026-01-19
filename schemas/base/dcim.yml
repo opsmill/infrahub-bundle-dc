@@ -405,13 +405,14 @@ nodes:
     label: Platform
     icon: mdi:application-cog-outline
     human_friendly_id:
+      - manufacturer__name__value
       - name__value
-    display_label: "{{ name__value }}"
+    display_label: "{{ manufacturer__name__value }} {{ name__value }}"
     order_by:
       - manufacturer__name__value
       - name__value
     uniqueness_constraints:
-      - [name__value]
+      - [manufacturer, name__value]
     attributes:
       - name: name
         kind: Text
@@ -452,6 +453,7 @@ nodes:
         cardinality: one
         kind: Attribute
         order_weight: 1300
+        optional: false
 
   - name: Device
     label: Network Device
