@@ -105,7 +105,7 @@ generics:
             description: Device mounted on the rear face of the rack.
     relationships:
       - name: device_type
-        peer: DcimDeviceType
+        peer: DcimPhysicalDeviceType
         optional: true
         cardinality: one
         kind: Attribute
@@ -356,16 +356,16 @@ generics:
         description: "Sub-interfaces of this interface"
         order_weight: 1750
 
-nodes:
-  # --------------------  Device (Types, Platforms, Device, Interfaces )  --------------------
-  - name: DeviceType
+  - name: GenericDeviceType
     namespace: Dcim
-    description: A model of device
+    description: Generic Device Type object
+    include_in_menu: false
     label: Device Type
     icon: mdi:poll
     human_friendly_id:
+      - manufacturer__name__value
       - name__value
-    display_label: "{{ name__value }}"
+    display_label: "{{ manufacturer__name__value }} {{ name__value }}"
     order_by:
       - manufacturer__name__value
       - name__value
@@ -385,6 +385,36 @@ nodes:
         optional: true
         kind: Text
         order_weight: 1200
+    relationships:
+      - name: manufacturer
+        peer: OrganizationManufacturer
+        cardinality: one
+        kind: Attribute
+        order_weight: 1250
+        optional: false
+      - name: platform
+        peer: DcimPlatform
+        cardinality: one
+        kind: Attribute
+        order_weight: 1300
+      - name: tags
+        peer: BuiltinTag
+        optional: true
+        cardinality: many
+        kind: Attribute
+        order_weight: 2000
+
+nodes:
+  # --------------------  Device (Types, Platforms, Device, Interfaces )  --------------------
+  - name: PhysicalDeviceType
+    namespace: Dcim
+    description: A model of physical device
+    include_in_menu: false
+    label: Physical Device Type
+    icon: mdi:poll
+    inherit_from:
+      - DcimGenericDeviceType
+    attributes:
       - name: height
         label: Height (U)
         optional: false
@@ -402,23 +432,42 @@ nodes:
         kind: Number
         order_weight: 1600
     relationships:
-      - name: platform
-        peer: DcimPlatform
-        cardinality: one
-        kind: Attribute
-        order_weight: 1300
-      - name: manufacturer
-        peer: OrganizationManufacturer
-        cardinality: one
-        kind: Attribute
-        order_weight: 1250
-        optional: false
-      - name: tags
-        peer: BuiltinTag
+      - name: devices
+        peer: DcimPhysicalDevice
         optional: true
         cardinality: many
-        kind: Attribute
+        order_weight: 1350
+
+  - name: VirtualDeviceType
+    namespace: Dcim
+    description: A model of virtual device
+    include_in_menu: false
+    label: Virtual Device Type
+    icon: mdi:poll
+    inherit_from:
+      - DcimGenericDeviceType
+    attributes:
+      - name: cpu
+        label: CPU Number
+        kind: Number
+        optional: true
         order_weight: 2000
+      - name: memory
+        label: Memory Size (GB)
+        kind: Number
+        optional: true
+        order_weight: 2100
+      - name: storage
+        label: Storage Size (GB)
+        kind: Number
+        optional: true
+        order_weight: 2200
+    relationships:
+      - name: devices
+        peer: DcimVirtualDevice
+        optional: true
+        cardinality: many
+        order_weight: 1350
 
   - name: Platform
     namespace: Dcim
@@ -595,7 +644,7 @@ nodes:
         order_weight: 2200
     relationships:
       - name: device_type
-        peer: DcimDeviceType
+        peer: DcimVirtualDeviceType
         optional: true
         cardinality: one
         kind: Attribute

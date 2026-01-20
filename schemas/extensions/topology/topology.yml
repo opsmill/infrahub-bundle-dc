@@ -3,7 +3,7 @@
 version: "1.0"
 extensions:
   nodes:
-    - kind: DcimDeviceType
+    - kind: DcimGenericDeviceType
       relationships:
         - name: design_components
           peer: DesignElement

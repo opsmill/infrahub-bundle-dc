@@ -111,7 +111,7 @@ spec:
 apiVersion: infrahub.app/v1
 kind: Object
 spec:
-  kind: DcimDeviceType
+  kind: DcimVirtualDeviceType
   data:
     - name: ZIA-Gateway
       manufacturer: Zscaler
@@ -165,7 +165,7 @@ spec:
   kind: DcimVirtualDevice
   data:
     - name: zscaler-zia-gateway-01
-      device_type: ZIA-Gateway
+      device_type: [Zscaler, ZIA-Gateway]
       description: Production Zscaler gateway
     - name: zscaler-zpa-connector-01
       device_type: ZPA-Connector

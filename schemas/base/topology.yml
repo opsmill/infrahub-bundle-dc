@@ -235,7 +235,7 @@ nodes:
     relationships:
       - name: device_type
         label: Type
-        peer: DcimDeviceType
+        peer: DcimGenericDeviceType
         optional: false
         cardinality: one
         kind: Attribute
@@ -324,7 +324,7 @@ nodes:
     inherit_from:
       - NetworkManagementServer
 
-#   --------------------  Topology  Deployments --------------------
+  #   --------------------  Topology  Deployments --------------------
   - name: DataCenter
     namespace: Topology
     description: "A Topology represents the entire network pod."
@@ -436,7 +436,7 @@ nodes:
 
 extensions:
   nodes:
-    - kind: DcimDeviceType
+    - kind: DcimGenericDeviceType
       relationships:
         - name: design_components
           peer: DesignElement
