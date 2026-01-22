@@ -11,13 +11,8 @@ doc_files: &doc_files
   - package.json
   - package-lock.json
 
-uv_files: &uv_files
-  - "**/pyproject.toml"
-  - "**/uv.lock"
-
 python_all: &python_all
   - "**/*.py"
-  - *uv_files
 
 yaml_all: &yaml_all
   - "**/*.{yml,yaml}"
