@@ -364,8 +364,9 @@ nodes:
     label: Device Type
     icon: mdi:poll
     human_friendly_id:
+      - manufacturer__name__value # NEW
       - name__value
-    display_label: "{{ name__value }}"
+    display_label: "{{ manufacturer__name__value }} {{ name__value }}"
     order_by:
       - manufacturer__name__value
       - name__value
