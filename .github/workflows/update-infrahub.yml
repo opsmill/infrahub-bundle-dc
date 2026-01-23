@@ -55,7 +55,7 @@ jobs:
 
       - name: Update testcontainers to workflow version ${{ env.INFRAHUB_VERSION }}
         run: |
-          uv add infrahub-testcontainers==${INFRAHUB_VERSION}
+          uv add --group dev infrahub-testcontainers==${INFRAHUB_VERSION}
 
       - name: Prepare the branch for the update
         id: prepare-branch
