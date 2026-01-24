@@ -101,13 +101,13 @@ router bgp {{ bgp.local_as }}
    maximum-paths 4 ecmp 64
 {# Configure BGP neighbors from enhanced transform data #}
 {%- for neighbor in bgp.neighbors %}
-{%-     set neihbor_ip = neighbor.remote_ip | ipaddress_interface(attr='ip') %}
+{%-     set neighbor_ip = neighbor.remote_ip | ipaddress_interface(attr='ip') %}
    ! {{ neighbor.description or 'BGP Neighbor' }}
-   neighbor {{ neihbor_ip }} remote-as {{ neighbor.remote_as }}
-   neighbor {{ neihbor_ip }} update-source Loopback0
-   neighbor {{ neihbor_ip }} description {{ neighbor.description or 'BGP Neighbor' }}
-   neighbor {{ neihbor_ip }} send-community extended
-   neighbor {{ neihbor_ip }} maximum-routes 0
+   neighbor {{ neighbor_ip }} remote-as {{ neighbor.remote_as }}
+   neighbor {{ neighbor_ip }} update-source Loopback0
+   neighbor {{ neighbor_ip }} description {{ neighbor.description or 'BGP Neighbor' }}
+   neighbor {{ neighbor_ip }} send-community extended
+   neighbor {{ neighbor_ip }} maximum-routes 0
 {%- endfor %}
    address-family ipv4
       redistribute connected route-map RM-CONN-2-BGP

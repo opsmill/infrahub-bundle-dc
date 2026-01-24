@@ -59,9 +59,10 @@ listen haproxy-stats
 {%- if vips %}
 {%-     for vip in vips %}
 {%-         if vip.backend_servers %}
+{%-             set clean_hostname = vip.hostname | replace('.', '_') | replace('-', '_') %}
 
 # Frontend for {{ vip.hostname }}
-frontend {{ vip.hostname | replace('.', '_') | replace('-', '_') }}_frontend
+frontend {{ clean_hostname }}_frontend
 {%-             if vip.mode == 'tcp' %}
     mode tcp
 {%-             else %}
@@ -76,10 +77,10 @@ frontend {{ vip.hostname | replace('.', '_') | replace('-', '_') }}_frontend
 {%-                 endif %}
 {%-             endif %}
 
-    default_backend {{ vip.hostname | replace('.', '_') | replace('-', '_') }}_backend
+    default_backend {{ clean_hostname }}_backend
 
 # Backend for {{ vip.hostname }}
-backend {{ vip.hostname | replace('.', '_') | replace('-', '_') }}_backend
+backend {{ clean_hostname }}_backend
 {%-             if vip.mode == 'tcp' %}
     mode tcp
 {%-             else %}

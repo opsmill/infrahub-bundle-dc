@@ -67,10 +67,10 @@ router bgp {{ bgp.local_as }}
    peer-group EVPN-OVERLAY-PEERS maximum-routes 0
 {# Configure BGP neighbors from enhanced transform data #}
 {%- for neighbor in bgp.neighbors %}
-{%-     set neihbor_ip = neighbor.remote_ip | ipaddress_interface(attr='ip') %}
+{%-     set neighbor_ip = neighbor.remote_ip | ipaddress_interface(attr='ip') %}
    ! {{ neighbor.description or 'BGP Neighbor' }} (Route Reflector Client)
-   neighbor {{ neihbor_ip }} peer-group EVPN-OVERLAY-PEERS
-   neighbor {{ neihbor_ip }} description {{ neighbor.description or 'BGP Neighbor' }}
+   neighbor {{ neighbor_ip }} peer-group EVPN-OVERLAY-PEERS
+   neighbor {{ neighbor_ip }} description {{ neighbor.description or 'BGP Neighbor' }}
 {%- endfor %}
    address-family ipv4
       redistribute connected route-map RM-CONN-2-BGP
