@@ -1,0 +1,72 @@
+# Cloud Accounts/Projects/Subscriptions for all three providers
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudAccount
+  data:
+    # AWS Accounts
+    - name: "opsmill-aws-production"
+      account_id: "123456789012"
+      description: "OpsMill Production AWS Account"
+      status: active
+      environment: production
+      provider: "Amazon Web Services"
+
+    - name: "opsmill-aws-staging"
+      account_id: "123456789013"
+      description: "OpsMill Staging AWS Account"
+      status: active
+      environment: staging
+      provider: "Amazon Web Services"
+
+    - name: "opsmill-aws-dev"
+      account_id: "123456789014"
+      description: "OpsMill Development AWS Account"
+      status: active
+      environment: development
+      provider: "Amazon Web Services"
+
+    # GCP Projects
+    - name: "opsmill-gcp-production"
+      account_id: "opsmill-prod-12345"
+      description: "OpsMill Production GCP Project"
+      status: active
+      environment: production
+      provider: "Google Cloud Platform"
+
+    - name: "opsmill-gcp-staging"
+      account_id: "opsmill-stg-12345"
+      description: "OpsMill Staging GCP Project"
+      status: active
+      environment: staging
+      provider: "Google Cloud Platform"
+
+    - name: "opsmill-gcp-dev"
+      account_id: "opsmill-dev-12345"
+      description: "OpsMill Development GCP Project"
+      status: active
+      environment: development
+      provider: "Google Cloud Platform"
+
+    # Azure Subscriptions
+    - name: "opsmill-azure-production"
+      account_id: "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+      description: "OpsMill Production Azure Subscription"
+      status: active
+      environment: production
+      provider: "Microsoft Azure"
+
+    - name: "opsmill-azure-staging"
+      account_id: "b2c3d4e5-f6a7-8901-bcde-f12345678901"
+      description: "OpsMill Staging Azure Subscription"
+      status: active
+      environment: staging
+      provider: "Microsoft Azure"
+
+    - name: "opsmill-azure-dev"
+      account_id: "c3d4e5f6-a7b8-9012-cdef-123456789012"
+      description: "OpsMill Development Azure Subscription"
+      status: active
+      environment: development
+      provider: "Microsoft Azure"

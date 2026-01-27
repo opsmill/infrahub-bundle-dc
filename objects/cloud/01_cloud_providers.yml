@@ -1,0 +1,21 @@
+# Cloud Providers - AWS, GCP, and Azure
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudProvider
+  data:
+    - name: "Amazon Web Services"
+      provider_type: aws
+      console_url: "https://console.aws.amazon.com"
+      organization: "AWS"
+
+    - name: "Google Cloud Platform"
+      provider_type: gcp
+      console_url: "https://console.cloud.google.com"
+      organization: "Google Cloud"
+
+    - name: "Microsoft Azure"
+      provider_type: azure
+      console_url: "https://portal.azure.com"
+      organization: "Azure"

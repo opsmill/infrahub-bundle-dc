@@ -1,0 +1,325 @@
+# Cloud Compute Instances for AWS, GCP, and Azure
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudInstance
+  data:
+    # AWS EC2 Instances - Production
+    - name: "aws-prod-web-01"
+      description: "Production web server 1"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:instance/i-0abc123web01"
+      status: active
+      instance_type: "t3.large"
+      cpu_count: 2
+      memory_gb: 8
+      root_volume_size_gb: 100
+      os_type: linux
+      private_ip: "10.0.1.10"
+      public_ip: "54.123.45.67"
+      account: "opsmill-aws-production"
+      zone: "us-east-1a"
+      subnet: "aws-prod-public-1a"
+      security_groups:
+        - ["aws-prod-web-sg"]
+
+    - name: "aws-prod-web-02"
+      description: "Production web server 2"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:instance/i-0abc123web02"
+      status: active
+      instance_type: "t3.large"
+      cpu_count: 2
+      memory_gb: 8
+      root_volume_size_gb: 100
+      os_type: linux
+      private_ip: "10.0.2.10"
+      public_ip: "54.123.45.68"
+      account: "opsmill-aws-production"
+      zone: "us-east-1b"
+      subnet: "aws-prod-public-1b"
+      security_groups:
+        - ["aws-prod-web-sg"]
+
+    - name: "aws-prod-app-01"
+      description: "Production application server 1"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:instance/i-0abc123app01"
+      status: active
+      instance_type: "m5.xlarge"
+      cpu_count: 4
+      memory_gb: 16
+      root_volume_size_gb: 200
+      os_type: linux
+      private_ip: "10.0.10.10"
+      account: "opsmill-aws-production"
+      zone: "us-east-1a"
+      subnet: "aws-prod-private-1a"
+      security_groups:
+        - ["aws-prod-app-sg"]
+
+    - name: "aws-prod-app-02"
+      description: "Production application server 2"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:instance/i-0abc123app02"
+      status: active
+      instance_type: "m5.xlarge"
+      cpu_count: 4
+      memory_gb: 16
+      root_volume_size_gb: 200
+      os_type: linux
+      private_ip: "10.0.11.10"
+      account: "opsmill-aws-production"
+      zone: "us-east-1b"
+      subnet: "aws-prod-private-1b"
+      security_groups:
+        - ["aws-prod-app-sg"]
+
+    - name: "aws-prod-bastion"
+      description: "Production bastion/jump host"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:instance/i-0abc123bastion"
+      status: active
+      instance_type: "t3.micro"
+      cpu_count: 2
+      memory_gb: 1
+      root_volume_size_gb: 20
+      os_type: linux
+      private_ip: "10.0.1.100"
+      public_ip: "54.123.45.100"
+      account: "opsmill-aws-production"
+      zone: "us-east-1a"
+      subnet: "aws-prod-public-1a"
+      security_groups:
+        - ["aws-prod-bastion-sg"]
+
+    # AWS EC2 Instances - Staging
+    - name: "aws-staging-web-01"
+      description: "Staging web server"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789013:instance/i-stg-web01"
+      status: active
+      instance_type: "t3.medium"
+      cpu_count: 2
+      memory_gb: 4
+      root_volume_size_gb: 50
+      os_type: linux
+      private_ip: "10.1.1.10"
+      public_ip: "54.200.10.20"
+      account: "opsmill-aws-staging"
+      zone: "us-east-1a"
+      subnet: "aws-staging-public-1a"
+      security_groups:
+        - ["aws-staging-web-sg"]
+
+    - name: "aws-staging-app-01"
+      description: "Staging application server"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789013:instance/i-stg-app01"
+      status: active
+      instance_type: "t3.medium"
+      cpu_count: 2
+      memory_gb: 4
+      root_volume_size_gb: 50
+      os_type: linux
+      private_ip: "10.1.10.10"
+      account: "opsmill-aws-staging"
+      zone: "us-east-1a"
+      subnet: "aws-staging-private-1a"
+      security_groups:
+        - ["aws-staging-app-sg"]
+
+    # GCP Compute Instances - Production
+    - name: "gcp-prod-web-01"
+      description: "Production web server on GCP"
+      cloud_id: "projects/opsmill-prod-12345/zones/us-central1-a/instances/web-01"
+      status: active
+      instance_type: "n1-standard-2"
+      cpu_count: 2
+      memory_gb: 7
+      root_volume_size_gb: 100
+      os_type: linux
+      private_ip: "10.128.0.10"
+      account: "opsmill-gcp-production"
+      zone: "us-central1-a"
+      subnet: "gcp-prod-web-subnet"
+      security_groups:
+        - ["gcp-prod-allow-http"]
+
+    - name: "gcp-prod-web-02"
+      description: "Production web server 2 on GCP"
+      cloud_id: "projects/opsmill-prod-12345/zones/us-central1-b/instances/web-02"
+      status: active
+      instance_type: "n1-standard-2"
+      cpu_count: 2
+      memory_gb: 7
+      root_volume_size_gb: 100
+      os_type: linux
+      private_ip: "10.128.0.11"
+      account: "opsmill-gcp-production"
+      zone: "us-central1-b"
+      subnet: "gcp-prod-web-subnet"
+      security_groups:
+        - ["gcp-prod-allow-http"]
+
+    - name: "gcp-prod-app-01"
+      description: "Production application server on GCP"
+      cloud_id: "projects/opsmill-prod-12345/zones/us-central1-b/instances/app-01"
+      status: active
+      instance_type: "n1-standard-4"
+      cpu_count: 4
+      memory_gb: 15
+      root_volume_size_gb: 200
+      os_type: linux
+      private_ip: "10.128.1.10"
+      account: "opsmill-gcp-production"
+      zone: "us-central1-b"
+      subnet: "gcp-prod-app-subnet"
+      security_groups:
+        - ["gcp-prod-allow-internal"]
+
+    - name: "gcp-prod-db-01"
+      description: "Production database server on GCP"
+      cloud_id: "projects/opsmill-prod-12345/zones/us-central1-c/instances/db-01"
+      status: active
+      instance_type: "n1-highmem-4"
+      cpu_count: 4
+      memory_gb: 26
+      root_volume_size_gb: 500
+      os_type: linux
+      private_ip: "10.128.2.10"
+      account: "opsmill-gcp-production"
+      zone: "us-central1-c"
+      subnet: "gcp-prod-db-subnet"
+      security_groups:
+        - ["gcp-prod-allow-internal"]
+
+    # GCP Compute Instances - Staging
+    - name: "gcp-staging-all-01"
+      description: "Staging all-in-one server"
+      cloud_id: "projects/opsmill-stg-12345/zones/us-central1-a/instances/staging-01"
+      status: active
+      instance_type: "n1-standard-2"
+      cpu_count: 2
+      memory_gb: 7
+      root_volume_size_gb: 100
+      os_type: linux
+      private_ip: "10.129.0.10"
+      account: "opsmill-gcp-staging"
+      zone: "us-central1-a"
+      subnet: "gcp-staging-subnet"
+      security_groups:
+        - ["gcp-staging-default"]
+
+    # Azure Virtual Machines - Production
+    - name: "azure-prod-web-01"
+      description: "Production web server on Azure"
+      cloud_id: "/subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/Microsoft.Compute/virtualMachines/web-01"
+      status: active
+      instance_type: "Standard_D2s_v3"
+      cpu_count: 2
+      memory_gb: 8
+      root_volume_size_gb: 128
+      os_type: linux
+      private_ip: "10.0.1.4"
+      public_ip: "20.50.100.10"
+      account: "opsmill-azure-production"
+      zone: "eastus-1"
+      subnet: "azure-prod-web-subnet"
+      security_groups:
+        - ["azure-prod-web-nsg"]
+
+    - name: "azure-prod-web-02"
+      description: "Production web server 2 on Azure"
+      cloud_id: "/subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/Microsoft.Compute/virtualMachines/web-02"
+      status: active
+      instance_type: "Standard_D2s_v3"
+      cpu_count: 2
+      memory_gb: 8
+      root_volume_size_gb: 128
+      os_type: linux
+      private_ip: "10.0.1.5"
+      public_ip: "20.50.100.11"
+      account: "opsmill-azure-production"
+      zone: "eastus-2"
+      subnet: "azure-prod-web-subnet"
+      security_groups:
+        - ["azure-prod-web-nsg"]
+
+    - name: "azure-prod-app-01"
+      description: "Production application server on Azure"
+      cloud_id: "/subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/Microsoft.Compute/virtualMachines/app-01"
+      status: active
+      instance_type: "Standard_D4s_v3"
+      cpu_count: 4
+      memory_gb: 16
+      root_volume_size_gb: 256
+      os_type: linux
+      private_ip: "10.0.2.4"
+      account: "opsmill-azure-production"
+      zone: "eastus-2"
+      subnet: "azure-prod-app-subnet"
+      security_groups:
+        - ["azure-prod-app-nsg"]
+
+    - name: "azure-prod-db-01"
+      description: "Production database server on Azure"
+      cloud_id: "/subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/Microsoft.Compute/virtualMachines/db-01"
+      status: active
+      instance_type: "Standard_E4s_v3"
+      cpu_count: 4
+      memory_gb: 32
+      root_volume_size_gb: 512
+      os_type: linux
+      private_ip: "10.0.3.4"
+      account: "opsmill-azure-production"
+      zone: "eastus-3"
+      subnet: "azure-prod-db-subnet"
+      security_groups:
+        - ["azure-prod-db-nsg"]
+
+    - name: "azure-prod-windows-01"
+      description: "Windows server on Azure"
+      cloud_id: "/subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/Microsoft.Compute/virtualMachines/win-01"
+      status: active
+      instance_type: "Standard_D2s_v3"
+      cpu_count: 2
+      memory_gb: 8
+      root_volume_size_gb: 128
+      os_type: windows
+      private_ip: "10.0.2.10"
+      account: "opsmill-azure-production"
+      zone: "eastus-1"
+      subnet: "azure-prod-app-subnet"
+      security_groups:
+        - ["azure-prod-app-nsg"]
+
+    # Azure Virtual Machines - Staging
+    - name: "azure-staging-web-01"
+      description: "Staging web server on Azure"
+      cloud_id: >-
+        /subscriptions/b2c3d4e5/resourceGroups/staging-rg/
+        providers/Microsoft.Compute/virtualMachines/stg-web-01
+      status: active
+      instance_type: "Standard_B2s"
+      cpu_count: 2
+      memory_gb: 4
+      root_volume_size_gb: 64
+      os_type: linux
+      private_ip: "10.1.1.4"
+      account: "opsmill-azure-staging"
+      zone: "eastus-1"
+      subnet: "azure-staging-subnet"
+      security_groups:
+        - ["azure-staging-nsg"]
+
+    # Azure Virtual Machines - Dev
+    - name: "azure-dev-vm-01"
+      description: "Development VM on Azure"
+      cloud_id: "/subscriptions/c3d4e5f6/resourceGroups/dev-rg/providers/Microsoft.Compute/virtualMachines/dev-vm-01"
+      status: active
+      instance_type: "Standard_B2s"
+      cpu_count: 2
+      memory_gb: 4
+      root_volume_size_gb: 64
+      os_type: linux
+      private_ip: "10.2.1.4"
+      account: "opsmill-azure-dev"
+      zone: "westus2-1"
+      subnet: "azure-dev-subnet"
+      security_groups:
+        - ["azure-dev-nsg"]

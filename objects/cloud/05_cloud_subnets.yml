@@ -1,0 +1,158 @@
+# Cloud Subnets for AWS, GCP, and Azure
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudSubnet
+  data:
+    # AWS Subnets - Production VPC East
+    - name: "aws-prod-public-1a"
+      description: "Public subnet in us-east-1a"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-pub1a"
+      status: active
+      subnet_type: public
+      auto_assign_public_ip: true
+      virtual_network: "aws-prod-vpc-east"
+      availability_zone: "us-east-1a"
+
+    - name: "aws-prod-public-1b"
+      description: "Public subnet in us-east-1b"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-pub1b"
+      status: active
+      subnet_type: public
+      auto_assign_public_ip: true
+      virtual_network: "aws-prod-vpc-east"
+      availability_zone: "us-east-1b"
+
+    - name: "aws-prod-private-1a"
+      description: "Private subnet in us-east-1a"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-priv1a"
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "aws-prod-vpc-east"
+      availability_zone: "us-east-1a"
+
+    - name: "aws-prod-private-1b"
+      description: "Private subnet in us-east-1b"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-priv1b"
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "aws-prod-vpc-east"
+      availability_zone: "us-east-1b"
+
+    # AWS Subnets - Staging VPC
+    - name: "aws-staging-public-1a"
+      description: "Public subnet for staging"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789013:subnet/subnet-stg-pub"
+      status: active
+      subnet_type: public
+      auto_assign_public_ip: true
+      virtual_network: "aws-staging-vpc"
+      availability_zone: "us-east-1a"
+
+    - name: "aws-staging-private-1a"
+      description: "Private subnet for staging"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789013:subnet/subnet-stg-priv"
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "aws-staging-vpc"
+      availability_zone: "us-east-1a"
+
+    # GCP Subnets - Production VPC
+    - name: "gcp-prod-web-subnet"
+      description: "Web tier subnet in GCP production"
+      cloud_id: "projects/opsmill-prod-12345/regions/us-central1/subnetworks/web-subnet"
+      status: active
+      subnet_type: public
+      auto_assign_public_ip: false
+      virtual_network: "gcp-prod-vpc"
+      availability_zone: "us-central1-a"
+
+    - name: "gcp-prod-app-subnet"
+      description: "Application tier subnet in GCP production"
+      cloud_id: "projects/opsmill-prod-12345/regions/us-central1/subnetworks/app-subnet"
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "gcp-prod-vpc"
+      availability_zone: "us-central1-b"
+
+    - name: "gcp-prod-db-subnet"
+      description: "Database tier subnet in GCP production"
+      cloud_id: "projects/opsmill-prod-12345/regions/us-central1/subnetworks/db-subnet"
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "gcp-prod-vpc"
+      availability_zone: "us-central1-c"
+
+    # GCP Subnets - Staging VPC
+    - name: "gcp-staging-subnet"
+      description: "Main subnet for GCP staging"
+      cloud_id: "projects/opsmill-stg-12345/regions/us-central1/subnetworks/staging-subnet"
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "gcp-staging-vpc"
+      availability_zone: "us-central1-a"
+
+    # Azure Subnets - Production VNet East
+    - name: "azure-prod-web-subnet"
+      description: "Web tier subnet in Azure production"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/
+        Microsoft.Network/virtualNetworks/prod-vnet-east/subnets/web-subnet
+      status: active
+      subnet_type: public
+      auto_assign_public_ip: false
+      virtual_network: "azure-prod-vnet-east"
+      availability_zone: "eastus-1"
+
+    - name: "azure-prod-app-subnet"
+      description: "Application tier subnet in Azure production"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/
+        Microsoft.Network/virtualNetworks/prod-vnet-east/subnets/app-subnet
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "azure-prod-vnet-east"
+      availability_zone: "eastus-2"
+
+    - name: "azure-prod-db-subnet"
+      description: "Database tier subnet in Azure production"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/
+        Microsoft.Network/virtualNetworks/prod-vnet-east/subnets/db-subnet
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "azure-prod-vnet-east"
+      availability_zone: "eastus-3"
+
+    # Azure Subnets - Staging VNet
+    - name: "azure-staging-subnet"
+      description: "Main subnet for Azure staging"
+      cloud_id: >-
+        /subscriptions/b2c3d4e5/resourceGroups/staging-rg/providers/
+        Microsoft.Network/virtualNetworks/staging-vnet/subnets/staging-subnet
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "azure-staging-vnet"
+      availability_zone: "eastus-1"
+
+    # Azure Subnets - Dev VNet
+    - name: "azure-dev-subnet"
+      description: "Development subnet in Azure"
+      cloud_id: >-
+        /subscriptions/c3d4e5f6/resourceGroups/dev-rg/providers/
+        Microsoft.Network/virtualNetworks/dev-vnet/subnets/dev-subnet
+      status: active
+      subnet_type: private
+      auto_assign_public_ip: false
+      virtual_network: "azure-dev-vnet"
+      availability_zone: "westus2-1"

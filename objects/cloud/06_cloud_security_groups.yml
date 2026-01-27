@@ -1,0 +1,125 @@
+# Cloud Security Groups for AWS, GCP, and Azure
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudSecurityGroup
+  data:
+    # AWS Security Groups - Production
+    - name: "aws-prod-web-sg"
+      description: "Security group for web servers - allows HTTP/HTTPS"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:security-group/sg-web123"
+      status: active
+      virtual_network: "aws-prod-vpc-east"
+      account: "opsmill-aws-production"
+
+    - name: "aws-prod-app-sg"
+      description: "Security group for application servers"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:security-group/sg-app456"
+      status: active
+      virtual_network: "aws-prod-vpc-east"
+      account: "opsmill-aws-production"
+
+    - name: "aws-prod-db-sg"
+      description: "Security group for database servers - restricted access"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:security-group/sg-db789"
+      status: active
+      virtual_network: "aws-prod-vpc-east"
+      account: "opsmill-aws-production"
+
+    - name: "aws-prod-bastion-sg"
+      description: "Security group for bastion/jump hosts"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:security-group/sg-bastion"
+      status: active
+      virtual_network: "aws-prod-vpc-east"
+      account: "opsmill-aws-production"
+
+    # AWS Security Groups - Staging
+    - name: "aws-staging-web-sg"
+      description: "Security group for staging web servers"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789013:security-group/sg-stg-web"
+      status: active
+      virtual_network: "aws-staging-vpc"
+      account: "opsmill-aws-staging"
+
+    - name: "aws-staging-app-sg"
+      description: "Security group for staging application servers"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789013:security-group/sg-stg-app"
+      status: active
+      virtual_network: "aws-staging-vpc"
+      account: "opsmill-aws-staging"
+
+    # GCP Firewall Rules (Security Groups)
+    - name: "gcp-prod-allow-http"
+      description: "Allow HTTP/HTTPS traffic to web tier"
+      cloud_id: "projects/opsmill-prod-12345/global/firewalls/allow-http"
+      status: active
+      virtual_network: "gcp-prod-vpc"
+      account: "opsmill-gcp-production"
+
+    - name: "gcp-prod-allow-internal"
+      description: "Allow internal communication between tiers"
+      cloud_id: "projects/opsmill-prod-12345/global/firewalls/allow-internal"
+      status: active
+      virtual_network: "gcp-prod-vpc"
+      account: "opsmill-gcp-production"
+
+    - name: "gcp-prod-allow-ssh"
+      description: "Allow SSH access from bastion"
+      cloud_id: "projects/opsmill-prod-12345/global/firewalls/allow-ssh"
+      status: active
+      virtual_network: "gcp-prod-vpc"
+      account: "opsmill-gcp-production"
+
+    - name: "gcp-staging-default"
+      description: "Default security rules for staging"
+      cloud_id: "projects/opsmill-stg-12345/global/firewalls/default-staging"
+      status: active
+      virtual_network: "gcp-staging-vpc"
+      account: "opsmill-gcp-staging"
+
+    # Azure Network Security Groups
+    - name: "azure-prod-web-nsg"
+      description: "NSG for web tier - allows HTTP/HTTPS"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/networkSecurityGroups/web-nsg
+      status: active
+      virtual_network: "azure-prod-vnet-east"
+      account: "opsmill-azure-production"
+
+    - name: "azure-prod-app-nsg"
+      description: "NSG for application tier"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/networkSecurityGroups/app-nsg
+      status: active
+      virtual_network: "azure-prod-vnet-east"
+      account: "opsmill-azure-production"
+
+    - name: "azure-prod-db-nsg"
+      description: "NSG for database tier - restricted access"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/networkSecurityGroups/db-nsg
+      status: active
+      virtual_network: "azure-prod-vnet-east"
+      account: "opsmill-azure-production"
+
+    - name: "azure-staging-nsg"
+      description: "NSG for staging environment"
+      cloud_id: >-
+        /subscriptions/b2c3d4e5/resourceGroups/staging-rg/
+        providers/Microsoft.Network/networkSecurityGroups/staging-nsg
+      status: active
+      virtual_network: "azure-staging-vnet"
+      account: "opsmill-azure-staging"
+
+    - name: "azure-dev-nsg"
+      description: "NSG for development environment"
+      cloud_id: >-
+        /subscriptions/c3d4e5f6/resourceGroups/dev-rg/
+        providers/Microsoft.Network/networkSecurityGroups/dev-nsg
+      status: active
+      virtual_network: "azure-dev-vnet"
+      account: "opsmill-azure-dev"

@@ -1,0 +1,381 @@
+# Cloud Network Infrastructure - Gateways, Route Tables, Elastic IPs, Network Interfaces
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudInternetGateway
+  data:
+    # AWS Internet Gateways
+    - name: "aws-prod-igw"
+      description: "Internet gateway for production VPC"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:internet-gateway/igw-prod123"
+      status: active
+      virtual_network: "aws-prod-vpc-east"
+      account: "opsmill-aws-production"
+
+    - name: "aws-staging-igw"
+      description: "Internet gateway for staging VPC"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789013:internet-gateway/igw-stg456"
+      status: active
+      virtual_network: "aws-staging-vpc"
+      account: "opsmill-aws-staging"
+
+    # GCP does not have explicit IGW - using Cloud Router representation
+    - name: "gcp-prod-router"
+      description: "Cloud router for production VPC"
+      cloud_id: "projects/opsmill-prod-12345/regions/us-central1/routers/prod-router"
+      status: active
+      virtual_network: "gcp-prod-vpc"
+      account: "opsmill-gcp-production"
+
+    # Azure Internet Gateways (Virtual Network Gateways for internet)
+    - name: "azure-prod-igw"
+      description: "Internet gateway for production VNet"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/virtualNetworkGateways/prod-igw
+      status: active
+      virtual_network: "azure-prod-vnet-east"
+      account: "opsmill-azure-production"
+
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudNATGateway
+  data:
+    # AWS NAT Gateways
+    - name: "aws-prod-nat-1a"
+      description: "NAT gateway in us-east-1a for private subnets"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:natgateway/nat-prod1a"
+      status: active
+      public_ip: "54.123.100.1"
+      subnet: "aws-prod-public-1a"
+      account: "opsmill-aws-production"
+
+    - name: "aws-prod-nat-1b"
+      description: "NAT gateway in us-east-1b for private subnets"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:natgateway/nat-prod1b"
+      status: active
+      public_ip: "54.123.100.2"
+      subnet: "aws-prod-public-1b"
+      account: "opsmill-aws-production"
+
+    # GCP Cloud NAT
+    - name: "gcp-prod-nat"
+      description: "Cloud NAT for production VPC"
+      cloud_id: "projects/opsmill-prod-12345/regions/us-central1/routers/prod-router/nats/prod-nat"
+      status: active
+      public_ip: "35.200.100.1"
+      subnet: "gcp-prod-web-subnet"
+      account: "opsmill-gcp-production"
+
+    # Azure NAT Gateway
+    - name: "azure-prod-nat"
+      description: "NAT gateway for production VNet"
+      cloud_id: "/subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/Microsoft.Network/natGateways/prod-nat"
+      status: active
+      public_ip: "20.50.200.1"
+      subnet: "azure-prod-web-subnet"
+      account: "opsmill-azure-production"
+
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudRouteTable
+  data:
+    # AWS Route Tables
+    - name: "aws-prod-public-rt"
+      description: "Route table for public subnets"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:route-table/rtb-public"
+      status: active
+      is_main: false
+      virtual_network: "aws-prod-vpc-east"
+      subnets:
+        - ["aws-prod-public-1a"]
+        - ["aws-prod-public-1b"]
+
+    - name: "aws-prod-private-rt"
+      description: "Route table for private subnets"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:route-table/rtb-private"
+      status: active
+      is_main: true
+      virtual_network: "aws-prod-vpc-east"
+      subnets:
+        - ["aws-prod-private-1a"]
+        - ["aws-prod-private-1b"]
+
+    # GCP Routes (represented as route tables)
+    - name: "gcp-prod-default-rt"
+      description: "Default routes for production VPC"
+      cloud_id: "projects/opsmill-prod-12345/global/routes/default-route"
+      status: active
+      is_main: true
+      virtual_network: "gcp-prod-vpc"
+
+    # Azure Route Tables
+    - name: "azure-prod-public-rt"
+      description: "Route table for public subnets"
+      cloud_id: "/subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/Microsoft.Network/routeTables/public-rt"
+      status: active
+      is_main: false
+      virtual_network: "azure-prod-vnet-east"
+      subnets:
+        - ["azure-prod-web-subnet"]
+
+    - name: "azure-prod-private-rt"
+      description: "Route table for private subnets"
+      cloud_id: "/subscriptions/a1b2c3d4/resourceGroups/prod-rg/providers/Microsoft.Network/routeTables/private-rt"
+      status: active
+      is_main: true
+      virtual_network: "azure-prod-vnet-east"
+      subnets:
+        - ["azure-prod-app-subnet"]
+        - ["azure-prod-db-subnet"]
+
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudElasticIP
+  data:
+    # AWS Elastic IPs
+    - name: "aws-prod-eip-web-01"
+      description: "Elastic IP for production web server 1"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:elastic-ip/eipalloc-web01"
+      status: active
+      public_ip: "54.123.45.67"
+      region: "US East (N. Virginia)"
+      account: "opsmill-aws-production"
+      instance: "aws-prod-web-01"
+
+    - name: "aws-prod-eip-web-02"
+      description: "Elastic IP for production web server 2"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:elastic-ip/eipalloc-web02"
+      status: active
+      public_ip: "54.123.45.68"
+      region: "US East (N. Virginia)"
+      account: "opsmill-aws-production"
+      instance: "aws-prod-web-02"
+
+    - name: "aws-prod-eip-bastion"
+      description: "Elastic IP for bastion host"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:elastic-ip/eipalloc-bastion"
+      status: active
+      public_ip: "54.123.45.100"
+      region: "US East (N. Virginia)"
+      account: "opsmill-aws-production"
+      instance: "aws-prod-bastion"
+
+    - name: "aws-prod-eip-nat-1a"
+      description: "Elastic IP for NAT gateway 1a"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:elastic-ip/eipalloc-nat1a"
+      status: active
+      public_ip: "54.123.100.1"
+      region: "US East (N. Virginia)"
+      account: "opsmill-aws-production"
+
+    # GCP Static IPs
+    - name: "gcp-prod-static-web"
+      description: "Static IP for GCP load balancer"
+      cloud_id: "projects/opsmill-prod-12345/regions/us-central1/addresses/web-static-ip"
+      status: active
+      public_ip: "35.200.50.100"
+      region: "US Central (Iowa)"
+      account: "opsmill-gcp-production"
+
+    - name: "gcp-prod-static-nat"
+      description: "Static IP for Cloud NAT"
+      cloud_id: "projects/opsmill-prod-12345/regions/us-central1/addresses/nat-static-ip"
+      status: active
+      public_ip: "35.200.100.1"
+      region: "US Central (Iowa)"
+      account: "opsmill-gcp-production"
+
+    # Azure Public IPs
+    - name: "azure-prod-pip-web-01"
+      description: "Public IP for web server 1"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/publicIPAddresses/web-01-pip
+      status: active
+      public_ip: "20.50.100.10"
+      region: "East US"
+      account: "opsmill-azure-production"
+      instance: "azure-prod-web-01"
+
+    - name: "azure-prod-pip-web-02"
+      description: "Public IP for web server 2"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/publicIPAddresses/web-02-pip
+      status: active
+      public_ip: "20.50.100.11"
+      region: "East US"
+      account: "opsmill-azure-production"
+      instance: "azure-prod-web-02"
+
+    - name: "azure-prod-pip-nat"
+      description: "Public IP for NAT gateway"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/publicIPAddresses/nat-pip
+      status: active
+      public_ip: "20.50.200.1"
+      region: "East US"
+      account: "opsmill-azure-production"
+
+---
+apiVersion: infrahub.app/v1
+kind: Object
+spec:
+  kind: CloudNetworkInterface
+  data:
+    # AWS ENIs - Production Web Servers
+    - name: "aws-prod-web-01-eni"
+      description: "Primary network interface for web server 1"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:network-interface/eni-web01"
+      status: active
+      is_primary: true
+      private_ip: "10.0.1.10"
+      public_ip: "54.123.45.67"
+      mac_address: "0a:1b:2c:3d:4e:01"
+      instance: "aws-prod-web-01"
+      subnet: "aws-prod-public-1a"
+      security_groups:
+        - ["aws-prod-web-sg"]
+
+    - name: "aws-prod-web-02-eni"
+      description: "Primary network interface for web server 2"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:network-interface/eni-web02"
+      status: active
+      is_primary: true
+      private_ip: "10.0.2.10"
+      public_ip: "54.123.45.68"
+      mac_address: "0a:1b:2c:3d:4e:02"
+      instance: "aws-prod-web-02"
+      subnet: "aws-prod-public-1b"
+      security_groups:
+        - ["aws-prod-web-sg"]
+
+    # AWS ENIs - Production App Servers
+    - name: "aws-prod-app-01-eni"
+      description: "Primary network interface for app server 1"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:network-interface/eni-app01"
+      status: active
+      is_primary: true
+      private_ip: "10.0.10.10"
+      mac_address: "0a:1b:2c:3d:4e:11"
+      instance: "aws-prod-app-01"
+      subnet: "aws-prod-private-1a"
+      security_groups:
+        - ["aws-prod-app-sg"]
+
+    - name: "aws-prod-app-02-eni"
+      description: "Primary network interface for app server 2"
+      cloud_id: "arn:aws:ec2:us-east-1:123456789012:network-interface/eni-app02"
+      status: active
+      is_primary: true
+      private_ip: "10.0.11.10"
+      mac_address: "0a:1b:2c:3d:4e:12"
+      instance: "aws-prod-app-02"
+      subnet: "aws-prod-private-1b"
+      security_groups:
+        - ["aws-prod-app-sg"]
+
+    # GCP Network Interfaces
+    - name: "gcp-prod-web-01-nic"
+      description: "Network interface for GCP web server 1"
+      cloud_id: "projects/opsmill-prod-12345/zones/us-central1-a/instances/web-01/networkInterfaces/0"
+      status: active
+      is_primary: true
+      private_ip: "10.128.0.10"
+      mac_address: "42:01:0a:80:00:0a"
+      instance: "gcp-prod-web-01"
+      subnet: "gcp-prod-web-subnet"
+      security_groups:
+        - ["gcp-prod-allow-http"]
+
+    - name: "gcp-prod-app-01-nic"
+      description: "Network interface for GCP app server 1"
+      cloud_id: "projects/opsmill-prod-12345/zones/us-central1-b/instances/app-01/networkInterfaces/0"
+      status: active
+      is_primary: true
+      private_ip: "10.128.1.10"
+      mac_address: "42:01:0a:80:01:0a"
+      instance: "gcp-prod-app-01"
+      subnet: "gcp-prod-app-subnet"
+      security_groups:
+        - ["gcp-prod-allow-internal"]
+
+    - name: "gcp-prod-db-01-nic"
+      description: "Network interface for GCP database server"
+      cloud_id: "projects/opsmill-prod-12345/zones/us-central1-c/instances/db-01/networkInterfaces/0"
+      status: active
+      is_primary: true
+      private_ip: "10.128.2.10"
+      mac_address: "42:01:0a:80:02:0a"
+      instance: "gcp-prod-db-01"
+      subnet: "gcp-prod-db-subnet"
+      security_groups:
+        - ["gcp-prod-allow-internal"]
+
+    # Azure NICs
+    - name: "azure-prod-web-01-nic"
+      description: "Network interface for Azure web server 1"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/networkInterfaces/web-01-nic
+      status: active
+      is_primary: true
+      private_ip: "10.0.1.4"
+      public_ip: "20.50.100.10"
+      mac_address: "00-0D-3A-12-34-01"
+      instance: "azure-prod-web-01"
+      subnet: "azure-prod-web-subnet"
+      security_groups:
+        - ["azure-prod-web-nsg"]
+
+    - name: "azure-prod-web-02-nic"
+      description: "Network interface for Azure web server 2"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/networkInterfaces/web-02-nic
+      status: active
+      is_primary: true
+      private_ip: "10.0.1.5"
+      public_ip: "20.50.100.11"
+      mac_address: "00-0D-3A-12-34-02"
+      instance: "azure-prod-web-02"
+      subnet: "azure-prod-web-subnet"
+      security_groups:
+        - ["azure-prod-web-nsg"]
+
+    - name: "azure-prod-app-01-nic"
+      description: "Network interface for Azure app server 1"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/networkInterfaces/app-01-nic
+      status: active
+      is_primary: true
+      private_ip: "10.0.2.4"
+      mac_address: "00-0D-3A-12-34-11"
+      instance: "azure-prod-app-01"
+      subnet: "azure-prod-app-subnet"
+      security_groups:
+        - ["azure-prod-app-nsg"]
+
+    - name: "azure-prod-db-01-nic"
+      description: "Network interface for Azure database server"
+      cloud_id: >-
+        /subscriptions/a1b2c3d4/resourceGroups/prod-rg/
+        providers/Microsoft.Network/networkInterfaces/db-01-nic
+      status: active
+      is_primary: true
+      private_ip: "10.0.3.4"
+      mac_address: "00-0D-3A-12-34-21"
+      instance: "azure-prod-db-01"
+      subnet: "azure-prod-db-subnet"
+      security_groups:
+        - ["azure-prod-db-nsg"]
