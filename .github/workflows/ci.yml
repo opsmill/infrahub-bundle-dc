@@ -88,14 +88,13 @@ jobs:
         run: markdownlint "**/*.{md,mdx}"
 
   integration-test:
+    if: |
+      always() && !cancelled() &&
+      !contains(needs.*.result, 'failure') &&
+      !contains(needs.*.result, 'cancelled')
     needs: ["python-lint", "yaml-lint", "markdown-lint"]
     runs-on:
       group: "huge-runners"
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-latest
     timeout-minutes: 60
     env:
       INFRAHUB_DB_TYPE: neo4j
@@ -104,6 +103,8 @@ jobs:
       INFRAHUB_TESTING_LOG_LEVEL: INFO
     steps:
       - uses: actions/checkout@v5
+      - name: Install tini
+        run: "apt-get update && apt-get install -y tini"
       - name: Install uv
         uses: astral-sh/setup-uv@v7
         with:
@@ -114,9 +115,7 @@ jobs:
           RUNNER_NAME=$(echo "${{ runner.name }}" | grep -o 'ghrunner[0-9]\+' | sed 's/ghrunner\([0-9]\+\)/ghrunner_\1/')
           echo "PYTEST_DEBUG_TEMPROOT=/var/lib/github/${RUNNER_NAME}/_temp" >> $GITHUB_ENV
       - name: Run tests
-        run: uv run pytest tests/
-        env:
-          REPOSITORY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: exec tini -s -g -- uv run pytest tests/
 
   documentation:
     defaults:

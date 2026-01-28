@@ -615,6 +615,43 @@ def lint_all(context: Context) -> None:
     console.print()
 
 
+@task(optional=["branch"], name="demo-cloud")
+def demo_cloud(context: Context, branch: str = "demo-cloud") -> None:
+    """Load cloud provider demo data (AWS, GCP, Azure)."""
+    console.print()
+    console.print(
+        Panel(
+            f"[bold cyan]Cloud Provider Demo[/bold cyan]\n"
+            f"[dim]Branch:[/dim] {branch}\n"
+            f"[dim]Providers:[/dim] AWS, GCP, Azure",
+            border_style="cyan",
+            box=box.SIMPLE,
+        )
+    )
+
+    console.print(f"\n[cyan]→[/cyan] Creating branch: [bold]{branch}[/bold]")
+    context.run(f"uv run infrahubctl branch create {branch}")
+
+    console.print(f"\n[cyan]→[/cyan] Loading cloud schema to branch: [bold]{branch}[/bold]")
+    context.run(f"uv run infrahubctl schema load schemas/ --branch {branch}")
+
+    console.print(f"\n[cyan]→[/cyan] Loading cloud objects to branch: [bold]{branch}[/bold]")
+    context.run(f"uv run infrahubctl object load objects/cloud/ --branch {branch}")
+
+    console.print(f"\n[green]✓[/green] Cloud demo loaded to branch '[bold green]{branch}[/bold green]'")
+
+    cloud_url = f"http://localhost:8000/objects/CloudResource?branch={branch}"
+    console.print()
+    console.print(
+        Panel(
+            f"[bold green]✓ Cloud demo ready[/bold green]\n\n[cyan]Cloud Resources:[/cyan] {cloud_url}",
+            border_style="green",
+            box=box.SIMPLE,
+        )
+    )
+    console.print()
+
+
 @task(name="docs")
 def docs_build(context: Context) -> None:
     """Build documentation website."""
