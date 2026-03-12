@@ -66,7 +66,7 @@ class RackElevationTransform(InfrahubTransform):
         return self.generate_svg(rack_name, rack_height, devices)
 
     def generate_svg(self, rack_name: str, rack_height: int, devices: list[dict]) -> str:
-        # Calculate dimensions and positions
+        # Calculate dimensions and positions on an x, y graph
         total_width: int = HORIZONTAL_PADDING + COLUMN_WIDTH + LABEL_COLUMN_WIDTH + COLUMN_WIDTH + HORIZONTAL_PADDING
         total_height: int = VERTICAL_HORIZONTAL_PADDING + (rack_height * U_HEIGHT) + VERTICAL_HORIZONTAL_PADDING
         front_x: int = HORIZONTAL_PADDING
