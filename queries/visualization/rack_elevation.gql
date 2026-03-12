@@ -12,6 +12,7 @@ query RackElevation($name: String!) {
         devices {
           edges {
             node {
+              id
               __typename
               ... on DcimGenericDevice {
                 name {
