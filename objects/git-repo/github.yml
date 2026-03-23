@@ -5,5 +5,5 @@ spec:
   kind: CoreReadOnlyRepository
   data:
     - name: bundle-dc
-      location: "https://github.com/opsmill/infrahub-bundle-dc.git"
+      location: "https://github.com/opsmill/infrahub-demo-dc.git"
       ref: "main"

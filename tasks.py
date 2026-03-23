@@ -1,4 +1,4 @@
-"""Tasks for the infrahub-bundle-dc project."""
+"""Tasks for the infrahub-demo-dc project."""
 
 import os
 import sys
