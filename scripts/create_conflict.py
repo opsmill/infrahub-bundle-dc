@@ -150,8 +150,7 @@ async def create_conflict(
     pc_id = None
     if create_pc:
         console.print(
-            f"\n[bright_magenta]→[/bright_magenta] Creating proposed change "
-            f"for [bold]{branch_name}[/bold]..."
+            f"\n[bright_magenta]→[/bright_magenta] Creating proposed change for [bold]{branch_name}[/bold]..."
         )
         try:
             proposed_change = await client.create(
