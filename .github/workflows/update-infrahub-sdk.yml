@@ -1,6 +1,6 @@
 ---
 # yamllint disable rule:truthy rule:truthy rule:line-length
-name: "Update infrahub-sdk-python  Version"
+name: "Update infrahub-sdk-python version"
 
 on:
   workflow_dispatch:
