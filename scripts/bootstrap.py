@@ -469,7 +469,7 @@ def main(branch: str = "main") -> int:
         console.print("[dim]Using local repository: /upstream[/dim]")
     else:
         repo_file = "objects/git-repo/github.yml"
-        console.print("[dim]Using GitHub repository: https://github.com/opsmill/infrahub-bundle-dc.git[/dim]")
+        console.print("[dim]Using GitHub repository: https://github.com/opsmill/infrahub-demo-dc.git[/dim]")
 
     # Execute repository addition command
     # capture_output=True prevents streaming to terminal (we handle output manually)
