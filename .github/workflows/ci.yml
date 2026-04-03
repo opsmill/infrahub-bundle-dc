@@ -130,6 +130,8 @@ jobs:
           submodules: true
       - name: Install pnpm
         uses: pnpm/action-setup@v4
+        with:
+          package_json_file: docs/package.json
       - uses: actions/setup-node@v6
         with:
           node-version: 20
