@@ -570,9 +570,7 @@ def run_tests(context: Context) -> None:
 def format_code(context: Context) -> None:
     """Run ruff to format all Python files."""
     console.print()
-    console.print(
-        Panel("[bold green]Formatting Code[/bold green]", border_style="green", box=box.SIMPLE)
-    )
+    console.print(Panel("[bold green]Formatting Code[/bold green]", border_style="green", box=box.SIMPLE))
     exec_cmds = ["ruff format .", "ruff check . --fix"]
     with context.cd(MAIN_DIRECTORY_PATH):
         for cmd in exec_cmds:
