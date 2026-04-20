@@ -50,7 +50,7 @@ docker-compose up
 
 ### Documentation
 
-For detailed setup instructions, configuration options, and usage guide, see the [bundle-dc docs](https://docs.infrahub.app/bundle-dc).
+For detailed setup instructions, configuration options, and usage guide, see the [demo-dc docs](https://docs.infrahub.app/demo-dc).
 
 ## License
 
