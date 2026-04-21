@@ -5,7 +5,7 @@ spec:
   kind: TopologyDataCenter
   data:
     - name: dc-arista
-      location: Frankfurt
+      location: fra
       description: Arista Data Center with cEOS switches
       strategy: ospf-ibgp
       design: PHYSICAL DC ARISTA S

@@ -8,7 +8,7 @@ spec:
       role: edge_firewall
       device_type: [Juniper, SRX-1500]
       platform: [Juniper, JunOS]
-      location: PAR-1
+      location: par-1
       status: active
       member_of_groups:
         - juniper_firewall
@@ -41,7 +41,7 @@ spec:
       role: leaf
       device_type: [Cisco, N9K-C93108TC-FX]
       platform: [Cisco, NX-OS]
-      location: LON-1
+      location: lon-1
       status: active
       member_of_groups:
         - leafs
@@ -61,7 +61,7 @@ spec:
       role: spine
       device_type: [Juniper, QFX5220-32CD]
       platform: [Juniper, JunOS]
-      location: FRA-1
+      location: fra-1
       status: active
       member_of_groups:
         - spines
@@ -81,7 +81,7 @@ spec:
       role: spine
       device_type: [Arista, DCS-7280DR3-24-F]
       platform: [Arista, EOS]
-      location: BCN-1
+      location: bcn-1
       status: active
       member_of_groups:
         - spines
@@ -101,7 +101,7 @@ spec:
       role: leaf
       device_type: [Edgecore, 5912-54X-O-AC-F]
       platform: [Generic, Sonic OS]
-      location: CHI-1
+      location: chi-1
       status: active
       member_of_groups:
         - leafs

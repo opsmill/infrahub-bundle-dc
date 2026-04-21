@@ -5,7 +5,7 @@ spec:
   kind: TopologyDataCenter
   data:
     - name: dc-sonic
-      location: Barcelona
+      location: bcn
       description: SONiC Data Center with border leafs
       strategy: ebgp-ibgp
       design: PHYSICAL DC SONIC S WITH BORDER LEAFS

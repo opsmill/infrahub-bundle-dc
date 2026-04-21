@@ -5,7 +5,7 @@ spec:
   kind: TopologyDataCenter
   data:
     - name: dc-juniper
-      location: London
+      location: lon
       description: Juniper Data Center with Juniper QFX5220-32CD
       strategy: ospf-ibgp
       design: PHYSICAL DC JUNIPER S

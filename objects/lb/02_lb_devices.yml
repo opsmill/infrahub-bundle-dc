@@ -10,7 +10,7 @@ spec:
         data:
           name: DC-1
           shortname: DC-1
-          parent: Katowice
+          parent: ktw
       device_type: [HAProxy Technologies, HA-PROXY]
       object_template: HA-PROXY
       status: active
@@ -66,7 +66,7 @@ spec:
         data:
           name: DC-1
           shortname: DC-1
-          parent: Katowice
+          parent: ktw
       object_template: NGINX
       topology: DC-1
       status: active

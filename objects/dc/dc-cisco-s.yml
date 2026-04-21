@@ -5,7 +5,7 @@ spec:
   kind: TopologyDataCenter
   data:
     - name: dc-cisco
-      location: Munich
+      location: muc
       description: Cisco Data Center with Nexus switches
       strategy: ebgp-ibgp
       design: PHYSICAL DC CISCO S

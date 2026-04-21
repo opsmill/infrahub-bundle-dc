@@ -5,7 +5,7 @@ spec:
   kind: TopologyColocationCenter
   data:
     - name: POP-2
-      location: Chicago
+      location: chi
       description: Chicago Physical POP
       design: PHYSICAL POP S
       emulation: true

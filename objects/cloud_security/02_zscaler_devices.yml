@@ -22,7 +22,7 @@ spec:
         data:
           name: DC-1
           shortname: DC-1
-          parent: Katowice
+          parent: ktw
       device_type: [Zscaler, ZIA-Gateway]
       role: edge_firewall
       status: active
@@ -45,7 +45,7 @@ spec:
         data:
           name: DC-1
           shortname: DC-1
-          parent: Katowice
+          parent: ktw
       device_type: [Zscaler, ZIA-Gateway]
       role: edge_firewall
       status: active
@@ -68,7 +68,7 @@ spec:
         data:
           name: DC-1
           shortname: DC-1
-          parent: Katowice
+          parent: ktw
       device_type: [Zscaler, ZIA-Gateway]
       role: edge_firewall
       status: active

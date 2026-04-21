@@ -10,12 +10,11 @@ generics:
     icon: mingcute:location-line
     include_in_menu: true
     hierarchical: true
-    branch: agnostic
     human_friendly_id:
-      - name__value
+      - shortname__value
     order_by:
       - name__value
-    display_label: "{{ name__value }}"
+    display_label: name__value
     attributes:
       - name: name
         kind: Text
@@ -40,15 +39,12 @@ generics:
     description: Location directly hosting device and services.
     include_in_menu: false
     human_friendly_id:
-      - name__value
-    order_by:
-      - name__value
-    display_label: "{{ name__value }}"
+      - shortname__value
     attributes:
-      - name: name
+      - name: shortname
         kind: Text
-        optional: false
-        order_weight: 1000
+        unique: true
+        order_weight: 1100
     # This is only owning relationships toward various assets that could be found on those locations
     relationships:
       - name: prefixes
@@ -59,6 +55,5 @@ generics:
       - name: devices
         label: Devices
         peer: DcimPhysicalDevice
-        identifier: hosting__devices
         cardinality: many
         optional: true

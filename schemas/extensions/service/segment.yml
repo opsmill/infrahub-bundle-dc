@@ -11,6 +11,11 @@ nodes:
     menu_placement: ServiceGenericDevice
     uniqueness_constraints:
       - [deployment, owner, environment__value, customer_name__value]
+    human_friendly_id:
+      - deployment__name__value
+      - owner__name__value
+      - environment__value
+      - customer_name__value
     include_in_menu: true
     inherit_from:
       - ServiceGeneric

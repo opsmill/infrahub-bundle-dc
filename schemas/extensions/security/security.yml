@@ -604,6 +604,9 @@ nodes:
     order_by:
       - index__value
     display_label: "{{ name__value }}"
+    human_friendly_id:
+      - policy__name__value
+      - index__value
     uniqueness_constraints:
       - [policy, index__value]
     attributes:

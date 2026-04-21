@@ -5,7 +5,7 @@ spec:
   kind: TopologyColocationCenter
   data:
     - name: POP-1
-      location: London
+      location: lon
       description: London Virtual POP
       design: VIRTUAL POP S
       emulation: true
