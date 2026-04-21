@@ -70,4 +70,3 @@ nodes:
       - OrganizationGeneric
     include_in_menu: true
     menu_placement: OrganizationGeneric
-

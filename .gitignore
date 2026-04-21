@@ -83,3 +83,4 @@ scripts/debug/
 service_catalog/.streamlit/
 *.clab.yml.bak
 *.tar.xz
+.superset/config.json
